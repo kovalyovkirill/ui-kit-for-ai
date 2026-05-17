@@ -1,0 +1,131 @@
+/* ─── Root wrapper ─── */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--input-gap);
+  width: 100%;
+}
+
+/* ─── Label ─── */
+.label {
+  font-family: var(--fontfamily-sans);
+  font-size: var(--label-sm-fontsize);
+  font-weight: var(--label-sm-fontweight);
+  line-height: var(--label-sm-lineheight);
+  color: var(--input-foreground-label);
+  display: block;
+}
+
+/* ─── Field (visible bordered box) ─── */
+.field {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: var(--input-border-width-default);
+  border-color: var(--input-border-default);
+  background: var(--input-background-default);
+  transition: border-color 150ms ease;
+}
+
+.field:hover {
+  border-color: var(--input-border-hover);
+}
+
+.field:focus-within {
+  border-color: var(--input-border-focus);
+}
+
+/* Error — border matches error text colour; overrides hover/focus */
+.field-error {
+  border-color: var(--input-foreground-error);
+}
+
+.field-error:hover {
+  border-color: var(--input-foreground-error);
+}
+
+.field-error:focus-within {
+  border-color: var(--input-foreground-error);
+}
+
+/* Disabled */
+.field-disabled {
+  background: var(--input-background-disabled);
+  border-color: var(--input-border-disabled);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Size variants ─── */
+.field-sm {
+  height: var(--input-height-sm);
+  padding: var(--input-padding-y-sm) var(--input-padding-x-sm);
+  border-radius: var(--input-radius-sm);
+}
+
+.field-md {
+  height: var(--input-height-md);
+  padding: var(--input-padding-y-md) var(--input-padding-x-md);
+  border-radius: var(--input-radius-md);
+}
+
+.field-lg {
+  height: var(--input-height-lg);
+  padding: var(--input-padding-y-lg) var(--input-padding-x-lg);
+  border-radius: var(--input-radius-lg);
+}
+
+.field-xl {
+  height: var(--input-height-xl);
+  padding: var(--input-padding-y-xl) var(--input-padding-x-xl);
+  border-radius: var(--input-radius-xl);
+}
+
+/* ─── Native <input> ─── */
+.input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--fontfamily-sans);
+  color: var(--input-foreground-default);
+}
+
+.input::placeholder {
+  color: var(--input-foreground-placeholder);
+}
+
+.input:disabled {
+  color: var(--input-foreground-disabled);
+  cursor: not-allowed;
+}
+
+/* ─── Input text size per size variant ─── */
+.input-sm {
+  font-size: var(--body-xs-fontsize);
+  font-weight: var(--body-xs-fontweight);
+  line-height: var(--body-xs-lineheight);
+}
+
+.input-md {
+  font-size: var(--body-sm-fontsize);
+  font-weight: var(--body-sm-fontweight);
+  line-height: var(--body-sm-lineheight);
+}
+
+.input-lg {
+  font-size: var(--body-md-fontsize);
+  font-weight: var(--body-md-fontweight);
+  line-height: var(--body-md-lineheight);
+}
+
+.input-xl {
+  font-size: var(--body-md-fontsize);
+  font-weight: var(--body-md-fontweight);
+  line-height: var(--body-md-lineheight);
+}

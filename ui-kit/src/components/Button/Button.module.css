@@ -1,0 +1,122 @@
+/* Base */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-gap);
+  font-family: var(--fontfamily-sans);
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  outline: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease, outline-color 0.12s ease;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Sizes ─── */
+
+.sm {
+  height: var(--button-height-sm);
+  padding: var(--button-padding-y-sm) var(--button-padding-x-sm);
+  border-radius: var(--button-radius-sm);
+  font-size: var(--label-sm-fontsize);
+  line-height: var(--label-sm-lineheight);
+}
+
+.md {
+  height: var(--button-height-md);
+  padding: var(--button-padding-y-md) var(--button-padding-x-md);
+  border-radius: var(--button-radius-md);
+  font-size: var(--label-md-fontsize);
+  line-height: var(--label-md-lineheight);
+}
+
+.lg {
+  height: var(--button-height-lg);
+  padding: var(--button-padding-y-lg) var(--button-padding-x-lg);
+  border-radius: var(--button-radius-lg);
+  font-size: var(--label-lg-fontsize);
+  line-height: var(--label-lg-lineheight);
+}
+
+.xl {
+  height: var(--button-height-xl);
+  padding: var(--button-padding-y-xl) var(--button-padding-x-xl);
+  border-radius: var(--button-radius-xl);
+  font-size: var(--label-lg-fontsize);
+  line-height: var(--label-lg-lineheight);
+}
+
+/* ─── Primary variant ─── */
+
+.primary {
+  background-color: var(--button-primary-background-default);
+  color: var(--button-primary-foreground-default);
+  border-color: var(--button-primary-border-default);
+}
+
+.primary:hover {
+  background-color: var(--button-primary-background-hover);
+  border-color: var(--button-primary-background-hover);
+}
+
+.primary:active {
+  background-color: var(--button-primary-background-active);
+  border-color: var(--button-primary-background-active);
+}
+
+.primary:focus-visible {
+  outline: 2px solid var(--button-primary-focus-ring);
+  outline-offset: 2px;
+}
+
+.primary:disabled {
+  background-color: var(--button-primary-background-disabled);
+  color: var(--button-primary-foreground-disabled);
+  border-color: var(--button-primary-background-disabled);
+}
+
+/* ─── Secondary variant ─── */
+
+.secondary {
+  background-color: var(--button-secondary-background-default);
+  color: var(--button-secondary-foreground-default);
+  border-color: var(--button-secondary-border-default);
+}
+
+.secondary:hover {
+  background-color: var(--button-secondary-background-hover);
+  border-color: var(--button-secondary-border-hover);
+}
+
+.secondary:active {
+  background-color: var(--button-secondary-background-active);
+}
+
+.secondary:focus-visible {
+  outline: 2px solid var(--button-secondary-focus-ring);
+  outline-offset: 2px;
+}
+
+.secondary:disabled {
+  background-color: var(--button-secondary-background-disabled);
+  color: var(--button-secondary-foreground-disabled);
+  border-color: var(--button-secondary-border-default);
+}
+
+/* ─── Icon slot ─── */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
