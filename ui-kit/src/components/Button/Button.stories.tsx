@@ -28,7 +28,7 @@ const meta: Meta<ButtonProps> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['primary', 'secondary', 'link'],
     },
     size: {
       control: 'select',
@@ -59,6 +59,13 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     children: 'Secondary',
+  },
+}
+
+export const Link: Story = {
+  args: {
+    variant: 'link',
+    children: 'Link',
   },
 }
 
@@ -119,6 +126,9 @@ export const AllVariants: Story = {
       <Button {...args} variant="secondary">
         Secondary
       </Button>
+      <Button {...args} variant="link">
+        Link
+      </Button>
     </div>
   ),
 }
@@ -131,6 +141,47 @@ export const DisabledVariants: Story = {
       </Button>
       <Button {...args} variant="secondary" disabled>
         Secondary
+      </Button>
+      <Button {...args} variant="link" disabled>
+        Link
+      </Button>
+    </div>
+  ),
+}
+
+export const LinkSizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <Button variant="link" size="sm">
+        Small
+      </Button>
+      <Button variant="link" size="md">
+        Medium
+      </Button>
+      <Button variant="link" size="lg">
+        Large
+      </Button>
+      <Button variant="link" size="xl">
+        Extra Large
+      </Button>
+    </div>
+  ),
+}
+
+export const LinkWithIcons: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <Button variant="link" size="sm" leftIcon={<PlusIcon />}>
+        Small
+      </Button>
+      <Button variant="link" size="md" leftIcon={<PlusIcon />}>
+        Medium
+      </Button>
+      <Button variant="link" size="lg" leftIcon={<PlusIcon />}>
+        Large
+      </Button>
+      <Button variant="link" size="xl" leftIcon={<PlusIcon />} rightIcon={<ArrowIcon />}>
+        Extra Large
       </Button>
     </div>
   ),

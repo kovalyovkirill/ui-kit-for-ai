@@ -1,3 +1,4 @@
+import { copyFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 import { defineConfig } from 'vite'
@@ -10,6 +11,23 @@ export default defineConfig({
       exclude: ['src/**/*.stories.*', 'src/**/*.test.*'],
       rollupTypes: true,
     }),
+    {
+      name: 'copy-tokens-css',
+      closeBundle() {
+        copyFileSync(
+          resolve(__dirname, 'src/styles/css/_varaibles-full.css'),
+          resolve(__dirname, 'dist/styles.css')
+        )
+        writeFileSync(
+          resolve(__dirname, 'dist/styles.d.ts'),
+          '// CSS side-effect import\nexport {}\n'
+        )
+        writeFileSync(
+          resolve(__dirname, 'dist/style.d.ts'),
+          '// CSS side-effect import\nexport {}\n'
+        )
+      },
+    },
   ],
   resolve: {
     alias: {

@@ -1,10 +1,10 @@
 import { type ButtonHTMLAttributes, type ReactNode } from 'react'
 
 /**
- * @figmaValues "Primary" | "Secondary"
- * @values "primary" | "secondary"
+ * @figmaValues "Primary" | "Secondary" | "Link"
+ * @values "primary" | "secondary" | "link"
  */
-export type ButtonVariant = 'primary' | 'secondary'
+export type ButtonVariant = 'primary' | 'secondary' | 'link'
 
 /**
  * @figmaValues "XL" (design spec) — sm/md/lg derived from token system

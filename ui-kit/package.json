@@ -10,6 +10,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
+    },
+    "./styles": {
+      "import": "./dist/styles.css",
+      "types": "./dist/styles.d.ts"
+    },
+    "./style": {
+      "import": "./dist/style.css",
+      "types": "./dist/style.d.ts"
     }
   },
   "files": [

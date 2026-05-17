@@ -110,6 +110,31 @@
   border-color: var(--button-secondary-border-default);
 }
 
+/* ─── Link variant ─── */
+
+.link {
+  background-color: transparent;
+  color: var(--button-link-foreground-default);
+  border-color: transparent;
+}
+
+.link:hover {
+  color: var(--button-link-foreground-hover);
+}
+
+.link:active {
+  color: var(--button-link-foreground-hover);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus-ring-brand);
+  outline-offset: 2px;
+}
+
+.link:disabled {
+  color: var(--button-link-foreground-disabled);
+}
+
 /* ─── Icon slot ─── */
 
 .icon {
@@ -119,4 +144,11 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
+}
+
+/* Link SM + MD use 16px icons (per Figma component set) */
+.link.sm .icon,
+.link.md .icon {
+  width: 16px;
+  height: 16px;
 }

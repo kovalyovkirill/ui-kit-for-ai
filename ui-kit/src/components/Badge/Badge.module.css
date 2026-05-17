@@ -1,0 +1,65 @@
+/* ─── Base ─── */
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--badge-radius);
+  padding-top: var(--badge-padding-y);
+  padding-bottom: var(--badge-padding-y);
+  white-space: nowrap;
+
+  /* label-sm typography */
+  font-family: var(--fontfamily-sans);
+  font-size: var(--label-sm-fontsize);
+  font-weight: var(--label-sm-fontweight);
+  line-height: var(--label-sm-lineheight);
+}
+
+/* ─── Sizes ─── */
+.sm {
+  padding-left: var(--badge-padding-x-sm);
+  padding-right: var(--badge-padding-x-sm);
+}
+
+.md {
+  padding-left: var(--badge-padding-x-md);
+  padding-right: var(--badge-padding-x-md);
+}
+
+.lg {
+  padding-left: var(--badge-padding-x-lg);
+  padding-right: var(--badge-padding-x-lg);
+}
+
+/* ─── Colour variants ─── */
+
+.primary {
+  background: var(--badge-primary-background);
+  color: var(--badge-primary-foreground);
+}
+
+.secondary {
+  background: var(--badge-secondary-background);
+  color: var(--badge-secondary-foreground);
+}
+
+.bordered {
+  background: transparent;
+  border: var(--badge-bordered-border-width) solid var(--badge-bordered-border);
+  color: var(--badge-bordered-foreground);
+}
+
+.danger {
+  background: var(--badge-danger-background);
+  color: var(--badge-danger-foreground);
+}
+
+.success {
+  background: var(--badge-success-background);
+  color: var(--badge-success-foreground);
+}
+
+.warning {
+  background: var(--badge-warning-background);
+  color: var(--badge-warning-foreground);
+}

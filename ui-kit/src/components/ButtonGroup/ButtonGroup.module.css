@@ -1,0 +1,124 @@
+/* ─── Container ─── */
+
+.group {
+  display: inline-flex;
+  border: var(--border-width-default) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+/* ─── Item ─── */
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-gap);
+  font-family: var(--fontfamily-sans);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: var(--button-bordered-foreground-default);
+  outline: none;
+  transition: background-color 0.12s ease;
+  flex-shrink: 0;
+}
+
+.item:hover:not(:disabled) {
+  background-color: var(--button-bordered-background-hover);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--focus-ring-brand);
+  outline-offset: -2px;
+}
+
+.item:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Active state ─── */
+
+.item.active {
+  background-color: var(--accents-brand);
+  color: var(--button-primary-foreground-default);
+}
+
+.item.active:hover:not(:disabled) {
+  background-color: var(--accents-brand);
+}
+
+/* ─── Dividers — horizontal ─── */
+
+.group:not(.vertical) .item + .item {
+  border-left: var(--border-width-default) solid var(--border-default);
+}
+
+/* ─── Dividers — vertical ─── */
+
+.group.vertical .item + .item {
+  border-top: var(--border-width-default) solid var(--border-default);
+}
+
+/* ─── Sizes ─── */
+
+.sm {
+  height: var(--button-height-sm);
+  padding: var(--button-padding-y-sm) var(--button-padding-x-sm);
+  font-size: var(--label-sm-fontsize);
+  line-height: var(--label-sm-lineheight);
+}
+
+.md {
+  height: var(--button-height-md);
+  padding: var(--button-padding-y-md) var(--button-padding-x-md);
+  font-size: var(--label-md-fontsize);
+  line-height: var(--label-md-lineheight);
+}
+
+.lg {
+  height: var(--button-height-lg);
+  padding: var(--button-padding-y-lg) var(--button-padding-x-lg);
+  font-size: var(--label-md-fontsize);
+  line-height: var(--label-md-lineheight);
+}
+
+/* ─── Icon-only square mode ─── */
+
+.sm.icon-item {
+  width: var(--button-height-sm);
+  padding: 0;
+}
+
+.md.icon-item {
+  width: var(--button-height-md);
+  padding: 0;
+}
+
+.lg.icon-item {
+  width: var(--button-height-lg);
+  padding: 0;
+}
+
+/* ─── Icon slot ─── */
+
+.icon-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.sm .icon-slot {
+  width: 16px;
+  height: 16px;
+}

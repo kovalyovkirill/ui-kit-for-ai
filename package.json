@@ -2,7 +2,8 @@
   "name": "monorepo",
   "private": true,
   "workspaces": [
-    "ui-kit"
+    "ui-kit",
+    "todooshka"
   ],
   "scripts": {
     "prepare": "husky"
