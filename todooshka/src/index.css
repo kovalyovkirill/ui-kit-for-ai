@@ -1,0 +1,79 @@
+/* ─── Reset ─── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ─── Base ─── */
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fontfamily-sans);
+  font-size: var(--body-md-fontsize);
+  font-weight: var(--body-md-fontweight);
+  line-height: var(--body-md-lineheight);
+  color: var(--foreground-primary);
+  background-color: var(--neutrals-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography resets ─── */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--fontfamily-sans);
+  color: var(--foreground-primary);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accents-brand);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Code ─── */
+
+code,
+pre {
+  font-family: var(--fontfamily-mono);
+  font-size: var(--code-sm-fontsize);
+  line-height: var(--code-sm-lineheight);
+  background-color: var(--neutrals-subtle);
+  border-radius: var(--radius-xs);
+}
+
+code {
+  padding: var(--spacing-0-5) var(--spacing-1);
+}
+
+pre {
+  padding: var(--spacing-4);
+  overflow-x: auto;
+}
+
+/* ─── Root container ─── */
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
