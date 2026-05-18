@@ -1,0 +1,122 @@
+.page {
+  background: var(--neutrals-background);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  background: var(--neutrals-surface);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-8);
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.navGhost {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 var(--spacing-4);
+  border-radius: var(--radius-md);
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.navDivider {
+  background: var(--border-default);
+  height: 1px;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-8);
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Kanban */
+.kanban {
+  display: flex;
+  gap: var(--spacing-6);
+  padding: var(--spacing-6) var(--spacing-8) var(--spacing-8);
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-width: 0;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.colHeaderWithAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.colHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.countBadge {
+  background: var(--neutrals-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+}

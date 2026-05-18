@@ -1,0 +1,10 @@
+.card {
+  background: var(--interactive-brand-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  box-sizing: border-box;
+}

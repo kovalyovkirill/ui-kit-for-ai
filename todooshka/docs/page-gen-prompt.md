@@ -24,6 +24,7 @@ Button, ButtonGroup / ButtonGroupItem, Typography, Input, Checkbox, Avatar, Badg
 4. If the design needs a pattern not covered by a ui-kit component (card, list item, modal, etc.), create a co-located app-level component in the same folder using the same rules.
 5. Output exactly two files per page: `PageName.tsx` and `PageName.module.css`. App-level sub-components get their own `.tsx` + `.module.css` pair in the same folder.
 6. All pages are created in `src/pages/`. Example: `src/pages/TaskList/TaskList.tsx` + `src/pages/TaskList/TaskList.module.css`.
+7. **The page file only composes — it contains no layout or styling logic.** Extract every visually or semantically distinct region into its own component. A region qualifies when it: has its own background/border/spacing, repeats across the page, or could be understood independently (navigation, a hero banner, a data column, a card). Each extracted component gets its own `.tsx` + `.module.css` pair co-located in the same folder.
 
 ## Figma
 Use only `mcp__figma-desktop__get_design_context`. Never use any remote Figma MCP tool.
