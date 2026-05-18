@@ -1,0 +1,15 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-8);
+  flex-shrink: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}

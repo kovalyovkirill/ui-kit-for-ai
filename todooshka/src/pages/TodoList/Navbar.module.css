@@ -1,0 +1,60 @@
+.navbar {
+  background: var(--neutrals-surface);
+  display: flex;
+  flex-direction: column;
+  height: 56px;
+  flex-shrink: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-8);
+  height: 64px;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.linkInactive {
+  color: var(--foreground-secondary) !important;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-shrink: 0;
+}
+
+.searchWrapper {
+  width: 240px;
+}
+
+.divider {
+  background: var(--border-default);
+  height: 1px;
+  flex-shrink: 0;
+  width: 100%;
+}

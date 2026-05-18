@@ -1,0 +1,24 @@
+.card {
+  background: var(--neutrals-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  padding: var(--spacing-4);
+  flex-shrink: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.title {
+  text-decoration: line-through;
+}
