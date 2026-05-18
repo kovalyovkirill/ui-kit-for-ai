@@ -1,0 +1,50 @@
+.card {
+  background: var(--neutrals-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardNormal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.cardActive {
+  border-color: var(--accents-brand);
+}
+
+.cardCompleted {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.completedContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
