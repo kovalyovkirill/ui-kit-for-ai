@@ -1,7 +1,7 @@
-import TodoList from './pages/TodoList/TodoList'
+import { Button } from '@monorepo/ui-kit'
 
 function App() {
-  return <TodoList />
+  return <Button>Test</Button>
 }
 
 export default App
