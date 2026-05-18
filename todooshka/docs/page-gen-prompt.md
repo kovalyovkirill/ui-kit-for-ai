@@ -23,6 +23,7 @@ Button, ButtonGroup / ButtonGroupItem, Typography, Input, Checkbox, Avatar, Badg
 3. CSS values: only `var(--token)`. No hardcoded colors, fonts, sizes, radii, or spacing. Use `--spacing-*`, `--radius-*`, `--fontfamily-*`, `--foreground-*`, `--neutrals-*`, `--border-*`, `--accents-*`.
 4. If the design needs a pattern not covered by a ui-kit component (card, list item, modal, etc.), create a co-located app-level component in the same folder using the same rules.
 5. Output exactly two files per page: `PageName.tsx` and `PageName.module.css`. App-level sub-components get their own `.tsx` + `.module.css` pair in the same folder.
+6. All pages are created in `src/pages/`. Example: `src/pages/TaskList/TaskList.tsx` + `src/pages/TaskList/TaskList.module.css`.
 
 ## Figma
 Use only `mcp__figma-desktop__get_design_context`. Never use any remote Figma MCP tool.
