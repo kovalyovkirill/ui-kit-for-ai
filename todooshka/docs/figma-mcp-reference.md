@@ -4,6 +4,37 @@ This file maps Figma layer names, variant properties, and design tokens to the c
 
 ---
 
+## Token naming convention
+
+**Figma MCP outputs slash-based names — do not use them directly.** The actual CSS custom properties use hyphens. Convert every token before writing CSS:
+
+| Figma MCP output | Correct CSS token |
+|---|---|
+| `var(--neutrals\/surface)` | `var(--neutrals-surface)` |
+| `var(--neutrals\/background)` | `var(--neutrals-background)` |
+| `var(--neutrals\/subtle)` | `var(--neutrals-subtle)` |
+| `var(--border\/default)` | `var(--border-default)` |
+| `var(--border\/strong)` | `var(--border-strong)` |
+| `var(--spacing\/1)` … `var(--spacing\/8)` | `var(--spacing-1)` … `var(--spacing-8)` |
+| `var(--radius\/xs)` … `var(--radius\/full)` | `var(--radius-xs)` … `var(--radius-full)` |
+| `var(--accents\/brand)` | `var(--accents-brand)` |
+| `var(--accents\/danger)` | `var(--accents-danger)` |
+| `var(--accents\/warning)` | `var(--accents-warning)` |
+| `var(--accents\/success)` | `var(--accents-success)` |
+| `var(--foreground\/primary)` | `var(--foreground-primary)` |
+| `var(--foreground\/secondary)` | `var(--foreground-secondary)` |
+| `var(--foreground\/tertiary)` | `var(--foreground-tertiary)` |
+| `var(--foreground\/on-accent)` | `var(--foreground-on-accent)` |
+| `var(--interactive\/brand\/default)` | `var(--interactive-brand-default)` |
+| `var(--button\/link\/foreground\/default)` | `var(--button-link-foreground-default)` |
+| `var(--button\/ghost\/foreground\/default)` | `var(--button-ghost-foreground-default)` |
+
+**Rule:** replace every `/` with `-` and drop the backslash escaping.
+
+The source of truth is `ui-kit/src/styles/css/_varaibles-full.css`.
+
+---
+
 ## Input
 
 **Import:** `import { Input } from '@monorepo/ui-kit'`
