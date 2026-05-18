@@ -1,5 +1,6 @@
 export * from './components/Button/Button'
 export type * from './components/Button/Button.types'
+export { AI_MAP } from './ai-map'
 export * from './components/Typography/Typography'
 export type * from './components/Typography/Typography.types'
 export * from './components/Input/Input'
