@@ -79,9 +79,13 @@
   border-width: var(--checkbox-border-width-checked);
 }
 
+.input:checked + .box .checkmark {
+  opacity: 1;
+}
+
 /* ─── Checkmark icon ─── */
 .checkmark {
-  display: block;
+  opacity: 0;
   overflow: visible;
   pointer-events: none;
 }
