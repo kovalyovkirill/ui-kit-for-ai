@@ -159,5 +159,9 @@ report.*.json
 
 src/**/**/*.d.ts
 
-# Файл с визуальным анализом собраного JS библиотеки
-stats.html
+# JetBrains IDE
+/.idea/*
+
+# Claude Code локальные настройки
+.claude
+**/.claude
