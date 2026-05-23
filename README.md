@@ -139,9 +139,13 @@ npm run preview --workspace=todooshka
 2. [Эксперимент Руфь](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-2) — маппинг свойств React и Figma в отдельном md файле. Промт для генерации страницы.
 3. [Эксперимент Лия](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-3) — маппинг свойств на уровне ui-kit настройки в CLAUDE.md
 
-Переходите в нужную ветку и проверяйте результат, предварительно удалив страницу (папка `pages`). 
+Переходите в нужную ветку и проверяйте результат, предварительно удалив страницу (папка `pages`).
 
 
 ## Соглашения о коммитах
 
 Используется **Conventional Commits**. Сообщения проверя
+
+## Соцсети
+
+[Телеграм](https://t.me/kovalev_frontend)
