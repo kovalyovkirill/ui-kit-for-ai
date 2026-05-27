@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Typography } from '@monorepo/ui-kit';
 import styles from './KanbanColumn.module.css';
 

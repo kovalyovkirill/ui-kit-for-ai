@@ -1,37 +1,35 @@
 import { Badge, Checkbox, Typography } from '@monorepo/ui-kit';
 import styles from './TaskCard.module.css';
 
-type Priority = 'high' | 'medium' | 'low' | 'none';
+type Priority = 'danger' | 'warning' | 'secondary';
 
-interface TaskCardProps {
-  completed?: boolean;
-  active?: boolean;
-  priority?: Priority;
-  date?: string;
-  title: string;
-  description?: string;
-  attachments?: string;
-}
-
-const priorityMap = {
-  high: { variant: 'danger' as const, label: 'Высокий' },
-  medium: { variant: 'warning' as const, label: 'Средний' },
-  low: { variant: 'secondary' as const, label: 'Низкий' },
+const PRIORITY_LABEL: Record<Priority, string> = {
+  danger: 'Высокий',
+  warning: 'Средний',
+  secondary: 'Низкий',
 };
 
-export function TaskCard({ completed, active, priority = 'none', date, title, description, attachments }: TaskCardProps) {
+interface TaskCardProps {
+  title: string;
+  description?: string;
+  priority?: Priority;
+  date?: string;
+  attachments?: string;
+  completed?: boolean;
+  active?: boolean;
+}
+
+export function TaskCard({ title, description, priority, date, attachments, completed = false, active = false }: TaskCardProps) {
   if (completed) {
     return (
-      <div className={`${styles.card} ${styles.cardCompleted}`}>
+      <div className={styles.card}>
         <Checkbox size="sm" defaultChecked />
         <div className={styles.completedContent}>
-          <Typography variant="label" color="foreground-secondary" className={styles.strikethrough}>
-            {title}
-          </Typography>
+          <div className={styles.strikethrough}>
+            <Typography variant="label" color="foreground-secondary">{title}</Typography>
+          </div>
           {description && (
-            <Typography variant="bodySm" color="foreground-tertiary">
-              {description}
-            </Typography>
+            <Typography variant="bodySm" color="foreground-tertiary">{description}</Typography>
           )}
         </div>
       </div>
@@ -39,32 +37,24 @@ export function TaskCard({ completed, active, priority = 'none', date, title, de
   }
 
   return (
-    <div className={`${styles.card} ${styles.cardNormal}${active ? ` ${styles.cardActive}` : ''}`}>
+    <div className={`${styles.card} ${styles.cardVertical} ${active ? styles.cardActive : ''}`}>
       <div className={styles.cardHeader}>
-        <div className={styles.leftGroup}>
+        <div className={styles.headerLeft}>
           <Checkbox size="sm" />
-          {priority !== 'none' && (
-            <Badge variant={priorityMap[priority].variant} size="sm">
-              {priorityMap[priority].label}
-            </Badge>
+          {priority && (
+            <Badge variant={priority} size="sm">{PRIORITY_LABEL[priority]}</Badge>
           )}
         </div>
         {date && (
-          <Typography variant="caption" color="foreground-tertiary">
-            {date}
-          </Typography>
+          <Typography variant="caption" color="foreground-tertiary">{date}</Typography>
         )}
       </div>
       <Typography variant="label">{title}</Typography>
       {description && (
-        <Typography variant="bodySm" color="foreground-secondary">
-          {description}
-        </Typography>
+        <Typography variant="bodySm" color="foreground-secondary">{description}</Typography>
       )}
       {attachments && (
-        <Typography variant="caption" color="foreground-tertiary">
-          {attachments}
-        </Typography>
+        <Typography variant="caption" color="foreground-tertiary">{attachments}</Typography>
       )}
     </div>
   );

@@ -1,107 +1,79 @@
-import { Avatar, Button, Input, Typography } from '@monorepo/ui-kit';
+import { Button, Typography } from '@monorepo/ui-kit';
+import { KanbanColumn } from './KanbanColumn';
+import { Navbar } from './Navbar';
 import { PerformanceCard } from './PerformanceCard';
 import { TaskCard } from './TaskCard';
 import styles from './TodoList.module.css';
 
-const PlusIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+const PlusIcon = (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 3.33334V12.6667M3.33333 8H12.6667" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
-export default function TodoList() {
+
+export function TodoList() {
   return (
     <div className={styles.page}>
-      <header className={styles.navbar}>
-        <div className={styles.navRow}>
-          <div className={styles.navLeft}>
-            <Typography variant="h4" color="accents-brand">Тудушка</Typography>
-            <nav className={styles.navLinks}>
-              <Button variant="link" size="md">Мои задачи</Button>
-              <button className={styles.navGhost}>
-                <Typography variant="label" color="foreground-secondary">Календарь</Typography>
-              </button>
-              <button className={styles.navGhost}>
-                <Typography variant="label" color="foreground-secondary">Категории</Typography>
-              </button>
-            </nav>
-          </div>
-          <div className={styles.navRight}>
-            <Input size="md" placeholder="Поиск" />
-            <Avatar size="md" initials="КК" />
-          </div>
-        </div>
-        <div className={styles.navDivider} />
-      </header>
+      <Navbar />
 
-      <section className={styles.hero}>
+      <div className={styles.hero}>
         <div className={styles.heroText}>
           <Typography variant="h1">Гляди на главное</Typography>
           <Typography variant="body" color="foreground-secondary">Осталось 4 задачи на сегодня</Typography>
         </div>
-        <Button variant="primary" size="md" rightIcon={<PlusIcon />}>Добавить задачу</Button>
-      </section>
+        <Button variant="primary" size="md" rightIcon={PlusIcon}>Добавить задачу</Button>
+      </div>
 
-      <div className={styles.kanban}>
-        <div className={styles.column}>
-          <div className={styles.colHeader}>
-            <Typography variant="caption" color="foreground-secondary">TO DO</Typography>
-            <div className={styles.countBadge}>
-              <Typography variant="caption" color="foreground-secondary">4</Typography>
-            </div>
-          </div>
+      <div className={styles.board}>
+        <KanbanColumn title="TO DO" count={4}>
           <TaskCard
-            priority="high"
+            priority="danger"
             date="Сегодня"
             title="Финализировать стратегию Q3"
             description="Изучить тренды маркетинга и оценить сроки реализации"
             attachments="2 файла"
           />
           <TaskCard
-            priority="medium"
+            priority="warning"
             date="Завтра"
             title="Обновить библиотеку компонентов"
             description="Синхронизировать с командой разработки варианты кнопок"
           />
-        </div>
+        </KanbanColumn>
 
-        <div className={styles.column}>
-          <div className={styles.colHeader}>
-            <Typography variant="caption" color="foreground-secondary">В ПРОЦЕССЕ</Typography>
-            <div className={styles.countBadge}>
-              <Typography variant="caption" color="foreground-secondary">2</Typography>
-            </div>
-          </div>
+        <KanbanColumn title="В ПРОЦЕССЕ" count={2}>
           <TaskCard
-            active
-            priority="low"
+            priority="secondary"
             date="2 часа осталось"
             title="Макеты для клиентской админки"
+            active
           />
-          <PerformanceCard />
-        </div>
+          <PerformanceCard
+            title="Производительность спринта на этой неделе"
+            subtitle="Вы на 15% продуктивней чем на прошлой неделе"
+            value="88%"
+          />
+        </KanbanColumn>
 
-        <div className={styles.column}>
-          <div className={styles.colHeaderWithAction}>
-            <div className={styles.colHeaderLeft}>
-              <Typography variant="caption" color="foreground-secondary">ГОТОВО</Typography>
-              <div className={styles.countBadge}>
-                <Typography variant="caption" color="foreground-secondary">12</Typography>
-              </div>
-            </div>
-            <Button variant="link" size="sm">Очистить</Button>
-          </div>
+        <KanbanColumn
+          title="ГОТОВО"
+          count={12}
+          action={
+            <Button variant="link" size="md">Очистить</Button>
+          }
+        >
           <TaskCard
-            completed
             title="Синк с бекенд командой"
             description="Обсудить схему API и новые эндпоинты"
+            completed
           />
           <TaskCard
-            completed
             title="Документация по онбордингу"
             description="Загрузить все файлы для портала"
+            completed
           />
-        </div>
+        </KanbanColumn>
       </div>
     </div>
   );
