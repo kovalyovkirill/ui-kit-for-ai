@@ -1,0 +1,6 @@
+{
+  "kit": "@monorepo/ui-kit",
+  "kitVersion": "*",
+  "tokensSource": "../ui-kit/src/styles/css/_varaibles-full.css",
+  "tokenRule": "slash-to-dash"
+}

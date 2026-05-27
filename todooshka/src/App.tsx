@@ -1,7 +1,7 @@
-import TodoList from './pages/TodoList/TodoList'
+import { TodoList } from './pages/TodoList/TodoList';
 
 function App() {
-  return <TodoList />
+  return <TodoList />;
 }
 
-export default App
+export default App;
