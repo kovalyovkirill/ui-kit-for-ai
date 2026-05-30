@@ -138,6 +138,7 @@ npm run preview --workspace=todooshka
 1. [Эксперимент Ева](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-1) — промт на уровне проекта со структурой
 2. [Эксперимент Руфь](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-2) — маппинг свойств React и Figma в отдельном md файле. Промт для генерации страницы.
 3. [Эксперимент Лия](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-3) — маппинг свойств на уровне ui-kit настройки в CLAUDE.md
+4. [Эксперимент Эсфирь](https://github.com/kovalyovkirill/ui-kit-for-ai/tree/experiment-4) — маппинг .ai-kit на уровне проекта, по компонентный подход
 
 Переходите в нужную ветку и проверяйте результат, предварительно удалив страницу (папка `pages`).
 
