@@ -1,49 +1,27 @@
 .card {
-  background: var(--neutrals-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
   display: flex;
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 100%;
-}
-
-.cardVertical {
   flex-direction: column;
   gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  border: var(--border-width-default) solid var(--border-default);
+  background-color: var(--neutrals-surface);
 }
 
-.cardActive {
+.active {
   border-color: var(--accents-brand);
 }
 
-.cardHeader {
+.header {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: space-between;
-  width: 100%;
-  flex-shrink: 0;
-}
-
-.headerLeft {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
 }
 
-/* Completed card */
-.completedContent {
+.headerStart {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-1);
-  flex: 1 0 0;
-  min-width: 0;
-  margin-left: var(--spacing-3);
-}
-
-.strikethrough * {
-  text-decoration: line-through;
+  flex-direction: row;
+  gap: var(--spacing-2);
+  align-items: center;
 }

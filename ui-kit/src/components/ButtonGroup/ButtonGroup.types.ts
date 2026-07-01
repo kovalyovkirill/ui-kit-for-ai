@@ -12,7 +12,7 @@ export type ButtonGroupOrientation = 'horizontal' | 'vertical'
 
 /**
  * ButtonGroup container props
- * @figma https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?node-id=1-11314
+ * @design https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg?item-id=1:11314
  */
 export interface ButtonGroupProps {
   /**

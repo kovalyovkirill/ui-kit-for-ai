@@ -7,7 +7,7 @@
 - **@commitlint/cli** + **config-conventional** — проверка сообщений коммитов по Conventional Commits.
 
 ## Макет
-Точка входа для всего флоу. Чтобы работали генерации на уровне агента, id figma nodes должны совпадать в мапе и в самом макете. [Ссылка на макет](https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?m=auto&t=e62Lc8cmWHW939io-1)
+Точка входа для всего флоу. Чтобы работали генерации на уровне агента, id нод должны совпадать в мапе (`.ai-kit/*.kit.md`) и в самом макете. Макет живёт в **Pixso** (импортирован из Figma, node id сохранены): [Ссылка на макет](https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg). Исходник в Figma: [AI-kit](https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?m=auto&t=e62Lc8cmWHW939io-1)
 
 ### Примечание
 

@@ -1,15 +1,15 @@
 ---
 component: Button
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:10688"
-figmaLayer: "Button"
+nodeId: "1:10688"
+layer: "Button"
 props:
-  variant:   { values: [primary, secondary, link], default: primary, figmaVariant: Variant }
-  size:      { values: [sm, md, lg, xl], default: xl, figmaVariant: Size }
-  leftIcon:  { type: ReactNode, note: "icon before label; alone (no children) = icon-only square, Figma Icon=True" }
+  variant:   { values: [primary, secondary, link], default: primary, variantProperty: Variant }
+  size:      { values: [sm, md, lg, xl], default: xl, variantProperty: Size }
+  leftIcon:  { type: ReactNode, note: "icon before label; alone (no children) = icon-only square, Pixso Icon=True" }
   rightIcon: { type: ReactNode, note: "icon after label" }
   children:  { type: ReactNode, note: "button label; omit with leftIcon only for icon-only mode" }
-  disabled:  { type: boolean, default: false, figmaState: Disabled }
+  disabled:  { type: boolean, default: false, stateProperty: Disabled }
   type:      { values: [button, submit, reset], default: button }
 ---
 
@@ -19,17 +19,17 @@ Use for all clickable actions. For a segmented filter/switcher, use `ButtonGroup
 
 ## Variant mapping
 
-| Figma Variant | `variant`   | Description |
+| Pixso Variant | `variant`   | Description |
 |---|---|---|
 | Primary   | primary   | Brand-filled. Main CTA. |
 | Secondary | secondary | Muted background. Secondary actions. |
 | Link      | link      | No background/border. Inline or low-emphasis. |
 
-> `Bordered`, `Clear`, `Ghost` exist in Figma but are not yet implemented.
+> `Bordered`, `Clear`, `Ghost` exist in Pixso but are not yet implemented.
 
 ## Size mapping
 
-| Figma Size | `size` | Height | Icon-only |
+| Pixso Size | `size` | Height | Icon-only |
 |---|---|---|---|
 | SM | sm | 32 px | 32×32 px |
 | MD | md | 40 px | 40×40 px |
@@ -38,7 +38,7 @@ Use for all clickable actions. For a segmented filter/switcher, use `ButtonGroup
 
 ## State mapping
 
-| Figma State | How to produce |
+| Pixso State | How to produce |
 |---|---|
 | Default  | no extra props |
 | Hover    | CSS `:hover` (automatic) |

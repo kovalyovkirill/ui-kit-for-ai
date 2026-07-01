@@ -1,11 +1,11 @@
 ---
 name: sync-ai-map
-description: Syncs .ai-kit/*.kit.md contract files against the live Figma library and ui-kit TypeScript types. Detects new/removed variant values and properties, updates the contract where safe, and produces a drift report. Use this skill whenever the user says "обнови ai-map", "Figma изменился", "проверь маппинг", "sync the kit", "check component drift", "update the contract", or any time a ui-kit component's Figma design or TypeScript types may have changed.
+description: Syncs .ai-kit/*.kit.md contract files against the live Pixso library and ui-kit TypeScript types. Detects new/removed variant values and properties, updates the contract where safe, and produces a drift report. Use this skill whenever the user says "обнови ai-map", "Pixso изменился", "проверь маппинг", "sync the kit", "check component drift", "update the contract", or any time a ui-kit component's Pixso design or TypeScript types may have changed.
 ---
 
 # sync-ai-map
 
-Keeps `.ai-kit/*.kit.md` in sync with the Figma library and ui-kit TypeScript types.
+Keeps `.ai-kit/*.kit.md` in sync with the Pixso library and ui-kit TypeScript types.
 
 ## Paths
 
@@ -13,18 +13,18 @@ Keeps `.ai-kit/*.kit.md` in sync with the Figma library and ui-kit TypeScript ty
 - UI kit types: `../ui-kit/src/components/<Component>/<Component>.types.ts`
 - Report output: `.ai-kit/sync-report.md`
 
-## Figma tool — hard requirement
+## Pixso tool — hard requirement
 
-**Only `mcp__figma-desktop__get_design_context` is permitted.** Never use any remote Figma MCP tool.
+**Only `mcp__pixso-desktop__get_variants` is permitted for reading design state.** Never use any other design MCP tool.
 
-Before doing anything else, verify the tool is available. If `mcp__figma-desktop__get_design_context` is not accessible, stop immediately and output:
+Before doing anything else, verify the tool is available. If `mcp__pixso-desktop__get_variants` is not accessible, stop immediately and output:
 
 ```
-❌ sync-ai-map: mcp__figma-desktop__get_design_context is not available.
-Open Figma Desktop and ensure the local MCP server is running, then retry.
+❌ sync-ai-map: mcp__pixso-desktop__get_variants is not available.
+Open Pixso Desktop with the design file and ensure the local MCP server is running, then retry.
 ```
 
-Do not proceed, do not fall back to a remote tool.
+Do not proceed, do not fall back to another tool.
 
 ---
 
@@ -34,39 +34,41 @@ Do not proceed, do not fall back to a remote tool.
 
 Parse every `.ai-kit/*.kit.md`. From each file extract:
 - `component` — component name
-- `figmaNodeId` — Figma node to inspect
-- `props` — map of prop names to `{ values, figmaVariant, figmaState, type }`
+- `nodeId` — Pixso component-set node to inspect
+- `props` — map of prop names to `{ values, variantProperty, stateProperty, type }`
 
-Only props with a `values` array and a `figmaVariant` field are in scope for diffing — these are the enum-style props driven by Figma variant properties. Skip `type: boolean` and `type: string` props.
+Only props with a `values` array and a `variantProperty` field are in scope for diffing — these are the enum-style props driven by Pixso variant properties. Skip `type: boolean` and `type: string` props. If a contract has no in-scope props (e.g. Typography, ButtonGroup), record it as `no variant properties — skipped` and do not call Pixso for it.
 
-### 2. Fetch Figma state
+### 2. Fetch Pixso state
 
-For each component, call:
+For each component with in-scope props, call:
 ```
-mcp__figma-desktop__get_design_context(figmaNodeId)
+mcp__pixso-desktop__get_variants(guid: nodeId)
 ```
 
-From the response, extract variant properties: for each property name that matches a `figmaVariant` in the contract, collect the full set of unique values currently present in Figma.
+The response is a flat list of variant components whose `name` encodes the property matrix: `"Variant=Primary, Size=XL, Icon=False, State=Default"`. Parse every name: split on `, `, then on `=`, and collect for each property name the full set of unique values across all variants.
+
+An empty response (`[]`) for a component that has in-scope props means the node is not a variant set — flag it in the report as `NODE_NOT_A_VARIANT_SET` and skip diffing.
 
 ### 3. Diff
 
-For each in-scope prop, compare Figma values against `contract.props[prop].values`.
+For each in-scope prop, compare Pixso values (for the property named by `variantProperty`) against `contract.props[prop].values`. Compare case-insensitively: Pixso values are TitleCase (`Primary`), contract values are lowercase (`primary`).
 
 Classify every difference:
 
 | Category | Definition |
 |---|---|
-| `NEW_VALUE` | value in Figma, not in contract |
-| `REMOVED_VALUE` | value in contract, not in Figma |
-| `NEW_PROPERTY` | figmaVariant in Figma, no matching prop in contract |
-| `REMOVED_PROPERTY` | prop in contract with figmaVariant, not found in Figma |
+| `NEW_VALUE` | value in Pixso, not in contract |
+| `REMOVED_VALUE` | value in contract, not in Pixso |
+| `NEW_PROPERTY` | property in Pixso variant names, no matching prop in contract (ignore properties covered by `stateProperty` or documented as CSS-driven, e.g. `State`, `Icon`) |
+| `REMOVED_PROPERTY` | prop in contract with `variantProperty`, property not found in Pixso |
 
 ### 4. Validate NEW_VALUE against TypeScript types
 
 For each `NEW_VALUE`, check whether the value already exists in the ui-kit TypeScript type:
 
 1. Read `../ui-kit/src/components/<Component>/<Component>.types.ts`
-2. Find the union type for that prop (look for `@values` JSDoc tag or the TypeScript union literal — e.g., `'primary' | 'secondary' | 'link'`)
+2. Find the union type for that prop (look for the `@designValues` JSDoc tag or the TypeScript union literal — e.g., `'primary' | 'secondary' | 'link'`)
 3. Decide:
    - Value found in TS type → **safe to add** to contract
    - Value not found → **needs type update** — flag in report, do not add to contract
@@ -74,10 +76,10 @@ For each `NEW_VALUE`, check whether the value already exists in the ui-kit TypeS
 ### 5. Apply safe changes
 
 Only modify contract files for changes classified as safe:
-- `NEW_VALUE` where the value exists in the TS type → add to `values` array in frontmatter
+- `NEW_VALUE` where the value exists in the TS type → add to `values` array in frontmatter (lowercase, matching contract convention)
 
 Do **not** modify the contract for:
-- `REMOVED_VALUE` — Figma may have a temporary state; flag only
+- `REMOVED_VALUE` — Pixso may have a temporary state; flag only
 - `NEW_VALUE` needing a TS type update — component code must change first
 - `NEW_PROPERTY` / `REMOVED_PROPERTY` — structural changes need manual review
 
@@ -111,13 +113,15 @@ Save to `.ai-kit/sync-report.md`. Use this structure:
 
 ### <ComponentName>
 - ⚠️ NEW_VALUE `<value>` for `<prop>` — not in TS type, update `<Component>.types.ts` first
-- ⚠️ REMOVED_VALUE `<value>` from `<prop>` — still in contract, verify with Figma owner
-- ⚠️ NEW_PROPERTY `<figmaVariant>` — no matching prop in contract
-- ⚠️ REMOVED_PROPERTY `<prop>` — figmaVariant `<x>` no longer in Figma
+- ⚠️ REMOVED_VALUE `<value>` from `<prop>` — still in contract, verify with design owner
+- ⚠️ NEW_PROPERTY `<property>` — no matching prop in contract
+- ⚠️ REMOVED_PROPERTY `<prop>` — variantProperty `<x>` no longer in Pixso
+- ⚠️ NODE_NOT_A_VARIANT_SET — `nodeId` returned no variants, check the node in Pixso
 - ❌ TS_ERROR — changes reverted, see tsc output below
 
 ## No changes
-- <ComponentName> — contract matches Figma ✓
+- <ComponentName> — contract matches Pixso ✓
+- <ComponentName> — no variant properties, skipped
 ```
 
 After writing the report, print its full content to the conversation so the user sees it immediately.

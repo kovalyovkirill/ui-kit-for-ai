@@ -1,14 +1,14 @@
 ---
 component: Input
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:12018"
-figmaLayer: "Input"
+nodeId: "1:12018"
+layer: "Input"
 props:
-  size:        { values: [sm, md, lg, xl], default: xl, figmaVariant: Size }
-  label:       { type: string, note: "visible when Figma sub-layer Label is shown" }
+  size:        { values: [sm, md, lg, xl], default: xl, variantProperty: Size }
+  label:       { type: string, note: "visible when Pixso sub-layer Label is shown" }
   helperText:  { type: string, note: "present when State ≠ Error" }
-  error:       { type: string, figmaState: Error, note: "replaces helperText, activates red border" }
-  disabled:    { type: boolean, default: false, figmaState: Disabled }
+  error:       { type: string, stateProperty: Error, note: "replaces helperText, activates red border" }
+  disabled:    { type: boolean, default: false, stateProperty: Disabled }
   placeholder: { type: string }
   id:          { type: string, note: "auto-generated via useId() if omitted" }
 ---
@@ -19,7 +19,7 @@ Use for all single-line text entry. Do not use for multi-line text (use Textarea
 
 ## Size mapping
 
-| Figma Size | `size` | Height | Text token |
+| Pixso Size | `size` | Height | Text token |
 |---|---|---|---|
 | SM | sm | 32 px | Body/XS |
 | MD | md | 40 px | Body/SM |
@@ -28,9 +28,9 @@ Use for all single-line text entry. Do not use for multi-line text (use Textarea
 
 ## State mapping
 
-Figma **State** is driven by native HTML and props — not a prop itself.
+Pixso **State** is driven by native HTML and props — not a prop itself.
 
-| Figma State | How to produce |
+| Pixso State | How to produce |
 |---|---|
 | Default  | no extra props |
 | Hover    | CSS `:hover` (automatic) |
@@ -40,7 +40,7 @@ Figma **State** is driven by native HTML and props — not a prop itself.
 
 ## Token naming rule
 
-Figma MCP outputs slash-separated names. Convert every `/` to `-` before writing CSS.
+Pixso MCP outputs slash-separated names. Convert every `/` to `-` before writing CSS.
 Example: `var(--neutrals\/surface)` → `var(--neutrals-surface)`
 
 ## Design tokens

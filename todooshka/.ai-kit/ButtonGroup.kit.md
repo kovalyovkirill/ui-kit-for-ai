@@ -1,13 +1,13 @@
 ---
 component: ButtonGroup
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:11314"
-figmaLayer: "ButtonGroup"
+nodeId: "1:11314"
+layer: "ButtonGroup"
 subcomponents:
   - ButtonGroupItem
 props:
   size:         { values: [sm, md, lg], default: md, note: "applied to all items" }
-  orientation:  { values: [horizontal, vertical], default: horizontal, note: "Figma Vertical variant → vertical" }
+  orientation:  { values: [horizontal, vertical], default: horizontal, note: "Pixso Vertical variant → vertical" }
   interactive:  { type: boolean, default: false, note: "enables radio-style selection" }
   value:        { type: string, note: "controlled selected value; only when interactive=true" }
   defaultValue: { type: string, note: "uncontrolled initial value; only when interactive=true" }
@@ -15,8 +15,8 @@ props:
   children:     { type: ReactNode, required: true, note: "should be ButtonGroupItem elements" }
 itemProps:
   value:    { type: string, note: "required when parent is interactive" }
-  active:   { type: boolean, default: false, note: "Figma With Active variant" }
-  icon:     { type: boolean, default: false, note: "icon-only square cell; Figma With Icons variant" }
+  active:   { type: boolean, default: false, note: "Pixso With Active variant" }
+  icon:     { type: boolean, default: false, note: "icon-only square cell; Pixso With Icons variant" }
   children: { type: ReactNode }
 ---
 
@@ -27,7 +27,7 @@ Use for switching between views or filters. Do not use for primary actions (use 
 
 ## Size mapping
 
-| Figma variant | `size` | Cell height | Text | Padding-x |
+| Pixso variant | `size` | Cell height | Text | Padding-x |
 |---|---|---|---|---|
 | Size SM       | sm | 32 px | Label/SM 12 px | 12 px |
 | Default        | md | 40 px | Label/MD 14 px | 16 px |

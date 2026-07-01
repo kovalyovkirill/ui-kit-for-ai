@@ -1,11 +1,11 @@
 ---
 component: Badge
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:12502"
-figmaLayer: "Badge"
+nodeId: "1:12502"
+layer: "Badge"
 props:
-  variant:  { values: [primary, secondary, bordered, danger, success, warning], default: primary, figmaVariant: Variant }
-  size:     { values: [sm, md, lg], default: sm, figmaVariant: Size }
+  variant:  { values: [primary, secondary, bordered, danger, success, warning], default: primary, variantProperty: Variant }
+  size:     { values: [sm, md, lg], default: sm, variantProperty: Size }
   children: { type: ReactNode, note: "badge label text" }
 ---
 
@@ -15,7 +15,7 @@ A small pill label for status, category, or count. Renders as `<span>` (inline).
 
 ## Variant mapping
 
-| Figma Variant | `variant`  | Background | Foreground |
+| Pixso Variant | `variant`  | Background | Foreground |
 |---|---|---|---|
 | Primary   | primary   | `--badge-primary-background` (#1072ea) | white |
 | Secondary | secondary | `--badge-secondary-background` (#f5f5f5) | #0f0f10 |
@@ -26,7 +26,7 @@ A small pill label for status, category, or count. Renders as `<span>` (inline).
 
 ## Size mapping
 
-| Figma Size | `size` | Padding-x |
+| Pixso Size | `size` | Padding-x |
 |---|---|---|
 | SM | sm |  8 px |
 | MD | md | 12 px |

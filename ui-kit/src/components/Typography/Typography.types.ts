@@ -1,10 +1,10 @@
 import { type ElementType, type HTMLAttributes } from 'react'
 
 /**
- * @figma https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?node-id=1-13098
+ * @design https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg?item-id=1:13098
  * @source Strategy B — parsed from get_design_context reference code
  *
- * Variants from Figma:
+ * Variants from Pixso:
  * display  — 48px / Bold 700 / lh 1.1
  * h1       — 36px / Bold 700 / lh 1.15
  * h2       — 30px / Bold 700 / lh 1.2
@@ -76,8 +76,8 @@ export type TypographyColor =
 export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   /**
    * Visual text style
-   * @figmaProperty "variant"
-   * @figmaType VARIANT
+   * @designProperty "variant"
+   * @designType VARIANT
    * @default "body"
    */
   variant?: TypographyVariant

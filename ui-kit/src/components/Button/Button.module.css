@@ -146,7 +146,7 @@
   height: 20px;
 }
 
-/* Link SM + MD use 16px icons (per Figma component set) */
+/* Link SM + MD use 16px icons (per design component set) */
 .link.sm .icon,
 .link.md .icon {
   width: 16px;

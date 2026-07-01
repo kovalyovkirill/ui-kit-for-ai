@@ -1,10 +1,10 @@
 ---
 component: Typography
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:13098"
-figmaLayer: "_typography-content"
+nodeId: "1:13098"
+layer: "_typography-content"
 props:
-  variant: { values: [display, h1, h2, h3, h4, h5, h6, bodyLg, body, bodySm, label, caption, overline], default: body, note: "maps to Figma layer name" }
+  variant: { values: [display, h1, h2, h3, h4, h5, h6, bodyLg, body, bodySm, label, caption, overline], default: body, note: "maps to Pixso layer name" }
   color:   { values: [foreground-primary, foreground-secondary, foreground-tertiary, foreground-quaternary, foreground-on-accent, accents-brand, accents-danger, accents-success, accents-warning, accents-info], default: foreground-primary }
   as:      { type: ElementType, note: "override rendered HTML tag when semantic differs from default" }
 ---
@@ -15,7 +15,7 @@ Use for all text rendering — headings, body, labels, captions, overlines. Tag 
 
 ## Variant mapping
 
-| Figma layer | `variant` | Size | Weight | Line-height | Default tag |
+| Pixso layer | `variant` | Size | Weight | Line-height | Default tag |
 |---|---|---|---|---|---|
 | Display | display | 48 px | 700 | 1.1  | `<p>` |
 | H1      | h1      | 36 px | 700 | 1.15 | `<h1>` |
@@ -51,13 +51,13 @@ Full list: see `TypographyColor` in `Typography.types.ts`.
 ## Examples
 
 ```tsx
-// Figma layer H1
+// Pixso layer H1
 <Typography variant="h1">Getting Started</Typography>
 
-// Figma layer Body SM, color foreground-tertiary
+// Pixso layer Body SM, color foreground-tertiary
 <Typography variant="bodySm" color="foreground-tertiary">Last updated 3 minutes ago</Typography>
 
-// Figma layer Caption, error state
+// Pixso layer Caption, error state
 <Typography variant="caption" color="accents-danger">This field is required</Typography>
 
 // H2 style rendered as <h1> (only one h1 on page)

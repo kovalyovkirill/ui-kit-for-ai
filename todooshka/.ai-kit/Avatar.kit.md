@@ -1,10 +1,10 @@
 ---
 component: Avatar
 import: "@monorepo/ui-kit"
-figmaNodeId: "1:12442"
-figmaLayer: "Avatar"
+nodeId: "1:12442"
+layer: "Avatar"
 props:
-  size:     { values: [sm, md, lg, xl], default: md, figmaVariant: Size }
+  size:     { values: [sm, md, lg, xl], default: md, variantProperty: Size }
   src:      { type: string, note: "image URL; falls back to initials or icon on load error" }
   name:     { type: string, note: "full name → derives initials (Jane Doe → JD) and default aria-label" }
   initials: { type: string, note: "explicit 1–2 char override; takes priority over name-derived initials" }
@@ -23,7 +23,7 @@ A circular container that renders, in priority order: photo → initials → fal
 
 ## Size mapping
 
-| Figma Size | `size` | Dimensions | Initials text |
+| Pixso Size | `size` | Dimensions | Initials text |
 |---|---|---|---|
 | SM | sm | 24×24 px | Label/SM 12 px |
 | MD | md | 40×40 px | Label/MD 14 px |

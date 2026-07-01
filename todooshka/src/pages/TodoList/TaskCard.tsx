@@ -1,61 +1,53 @@
-import { Badge, Checkbox, Typography } from '@monorepo/ui-kit';
-import styles from './TaskCard.module.css';
-
-type Priority = 'danger' | 'warning' | 'secondary';
-
-const PRIORITY_LABEL: Record<Priority, string> = {
-  danger: 'Высокий',
-  warning: 'Средний',
-  secondary: 'Низкий',
-};
+import { Badge, Checkbox, Typography } from '@monorepo/ui-kit'
+import styles from './TaskCard.module.css'
 
 interface TaskCardProps {
-  title: string;
-  description?: string;
-  priority?: Priority;
-  date?: string;
-  attachments?: string;
-  completed?: boolean;
-  active?: boolean;
+  priority: { label: string; variant: 'danger' | 'warning' | 'secondary' }
+  due: string
+  title: string
+  description?: string
+  meta?: string
+  active?: boolean
+  withCheckbox?: boolean
 }
 
-export function TaskCard({ title, description, priority, date, attachments, completed = false, active = false }: TaskCardProps) {
-  if (completed) {
-    return (
-      <div className={styles.card}>
-        <Checkbox size="sm" defaultChecked />
-        <div className={styles.completedContent}>
-          <div className={styles.strikethrough}>
-            <Typography variant="label" color="foreground-secondary">{title}</Typography>
-          </div>
-          {description && (
-            <Typography variant="bodySm" color="foreground-tertiary">{description}</Typography>
-          )}
-        </div>
-      </div>
-    );
-  }
-
+export function TaskCard({
+  priority,
+  due,
+  title,
+  description,
+  meta,
+  active,
+  withCheckbox = true,
+}: TaskCardProps) {
   return (
-    <div className={`${styles.card} ${styles.cardVertical} ${active ? styles.cardActive : ''}`}>
-      <div className={styles.cardHeader}>
-        <div className={styles.headerLeft}>
-          <Checkbox size="sm" />
-          {priority && (
-            <Badge variant={priority} size="sm">{PRIORITY_LABEL[priority]}</Badge>
-          )}
+    <article
+      className={active ? `${styles.card} ${styles.active}` : styles.card}
+    >
+      <div className={styles.header}>
+        <div className={styles.headerStart}>
+          {withCheckbox && <Checkbox size="sm" />}
+          <Badge variant={priority.variant} size="sm">
+            {priority.label}
+          </Badge>
         </div>
-        {date && (
-          <Typography variant="caption" color="foreground-tertiary">{date}</Typography>
-        )}
+        <Typography variant="caption" color="foreground-tertiary">
+          {due}
+        </Typography>
       </div>
-      <Typography variant="label">{title}</Typography>
+      <Typography variant="label" color="foreground-primary">
+        {title}
+      </Typography>
       {description && (
-        <Typography variant="bodySm" color="foreground-secondary">{description}</Typography>
+        <Typography variant="bodySm" color="foreground-secondary">
+          {description}
+        </Typography>
       )}
-      {attachments && (
-        <Typography variant="caption" color="foreground-tertiary">{attachments}</Typography>
+      {meta && (
+        <Typography variant="caption" color="foreground-tertiary">
+          {meta}
+        </Typography>
       )}
-    </div>
-  );
+    </article>
+  )
 }

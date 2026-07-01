@@ -6,7 +6,7 @@ import { type CheckboxProps, type CheckboxSize } from './Checkbox.types'
 import { Typography } from '../Typography/Typography'
 
 // Per-size checkmark SVGs — stroke uses the design token so it adapts to theme.
-// Paths and stroke-widths match the Figma component set exactly.
+// Paths and stroke-widths match the design component set exactly.
 const CHECKMARKS: Record<CheckboxSize, ReactElement> = {
   sm: (
     <svg

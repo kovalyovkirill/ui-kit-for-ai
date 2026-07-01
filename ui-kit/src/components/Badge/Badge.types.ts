@@ -1,9 +1,9 @@
 import { type HTMLAttributes } from 'react'
 
 /**
- * @figma https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?node-id=1-12502
+ * @design https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg?item-id=1:12502
  *
- * Variants from Figma:
+ * Variants from Pixso:
  * primary   — brand bg   / white text
  * secondary — subtle bg  / primary text
  * bordered  — no bg      / primary text / border
@@ -11,7 +11,7 @@ import { type HTMLAttributes } from 'react'
  * success   — success bg / white text
  * warning   — warning bg / white text
  *
- * Sizes from Figma:
+ * Sizes from Pixso:
  * sm — px: spacing-2  (8px)
  * md — px: spacing-3  (12px)
  * lg — px: spacing-4  (16px)

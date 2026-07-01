@@ -1,9 +1,9 @@
 import { type InputHTMLAttributes } from 'react'
 
 /**
- * @figma https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?node-id=1-12018
+ * @design https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg?item-id=1:12018
  *
- * Sizes from Figma:
+ * Sizes from Pixso:
  * sm — h:32px / body-xs  / radius-sm (8px)
  * md — h:40px / body-sm  / radius-md (12px)
  * lg — h:48px / body-md  / radius-lg (12px)

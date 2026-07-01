@@ -1,0 +1,21 @@
+.card {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  border: var(--border-width-default) solid var(--border-default);
+  background-color: var(--neutrals-surface);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  align-items: flex-start;
+}
+
+.strike {
+  text-decoration: line-through;
+}

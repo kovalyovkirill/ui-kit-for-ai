@@ -1,35 +1,14 @@
 .page {
-  background: var(--neutrals-background);
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
-  width: 100%;
-}
-
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-8);
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 100%;
-}
-
-.heroText {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
-  overflow: hidden;
-  flex-shrink: 0;
+  background-color: var(--neutrals-background);
 }
 
 .board {
   display: flex;
+  flex-direction: row;
   gap: var(--spacing-6);
   align-items: flex-start;
   padding: var(--spacing-6) var(--spacing-8) var(--spacing-8);
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 100%;
 }

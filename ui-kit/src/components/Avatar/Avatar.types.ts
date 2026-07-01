@@ -1,9 +1,9 @@
 import { type HTMLAttributes } from 'react'
 
 /**
- * @figma https://www.figma.com/design/mCvUF676Ksuw1umEaJiXn7/AI-kit?node-id=1-12442
+ * @design https://pixso.net/app/design/dJRiDr4Ixp89b2OcUPanKg?item-id=1:12442
  *
- * Sizes from Figma:
+ * Sizes from Pixso:
  * sm — 24×24px  / label-sm text (12px medium)
  * md — 40×40px  / label-md text (14px medium)
  * lg — 56×56px  / label-md text (14px medium)
