@@ -162,6 +162,7 @@ src/**/**/*.d.ts
 # JetBrains IDE
 /.idea/*
 
-# Claude Code локальные настройки
-.claude
-**/.claude
+.claude/*
+!.claude/skills/
+**/.claude/*
+!**/.claude/skills/

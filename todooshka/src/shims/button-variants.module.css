@@ -1,0 +1,89 @@
+/*
+ * TEMPORARY variant shims for @monorepo/ui-kit Button.
+ * Registry: kit.json → figmaComponents.Button.variants (status "shim").
+ * Each class renders a Figma Button variant the kit does not implement yet,
+ * on top of an implemented base variant — see Button.kit.md → "Unimplemented
+ * variants" for the base mapping and the token-detection rule.
+ *
+ * Rules:
+ * - only --button-… / --focus-ring-… tokens — nothing invented;
+ * - selectors are doubled (.ghost.ghost) so the shim beats the kit's
+ *   single-class rules regardless of CSS-module injection order;
+ * - focus ring mirrors the kit mechanism: solid outline + offset.
+ *
+ * Deletion contract — remove a class when Button accepts the variant natively:
+ *   .ghost    → variant="ghost"
+ *   .clear    → variant="clear"
+ *   .bordered → variant="bordered"
+ * tokens.txt will NOT signal readiness (these tokens already exist);
+ * /sync-ai-map checks Button.types.ts and reports classes ready for removal.
+ */
+
+/* Ghost — base: <Button variant="link" className={shim.ghost}> */
+.ghost.ghost {
+  color: var(--button-ghost-foreground-default);
+}
+.ghost.ghost:hover {
+  color: var(--button-ghost-foreground-hover);
+  background-color: var(--button-ghost-background-hover);
+}
+.ghost.ghost:active {
+  color: var(--button-ghost-foreground-hover);
+  background-color: var(--button-ghost-background-active);
+}
+.ghost.ghost:focus-visible {
+  outline: 2px solid var(--button-ghost-focus-ring);
+  outline-offset: 2px;
+}
+.ghost.ghost:disabled {
+  color: var(--button-ghost-foreground-disabled);
+  background-color: transparent;
+}
+
+/* Clear — base: <Button variant="link" className={shim.clear}> */
+.clear.clear {
+  color: var(--button-clear-foreground-default);
+}
+.clear.clear:hover {
+  /* no clear hover-foreground token — pin the base link's hover recolor */
+  color: var(--button-clear-foreground-default);
+  background-color: var(--button-clear-background-hover);
+}
+.clear.clear:active {
+  color: var(--button-clear-foreground-default);
+  background-color: var(--button-clear-background-active);
+}
+.clear.clear:focus-visible {
+  /* no clear focus-ring token — contract fallback */
+  outline: 2px solid var(--focus-ring-neutral);
+  outline-offset: 2px;
+}
+.clear.clear:disabled {
+  color: var(--button-clear-foreground-disabled);
+  background-color: transparent;
+}
+
+/* Bordered — base: <Button variant="secondary" className={shim.bordered}> */
+.bordered.bordered {
+  color: var(--button-bordered-foreground-default);
+  background-color: var(--button-bordered-background-default);
+  border-color: var(--button-bordered-border-default);
+}
+.bordered.bordered:hover {
+  background-color: var(--button-bordered-background-hover);
+  /* no bordered hover-border token — pin the base secondary's hover recolor */
+  border-color: var(--button-bordered-border-default);
+}
+.bordered.bordered:active {
+  background-color: var(--button-bordered-background-active);
+}
+.bordered.bordered:focus-visible {
+  /* no bordered focus-ring token — contract fallback */
+  outline: 2px solid var(--focus-ring-neutral);
+  outline-offset: 2px;
+}
+.bordered.bordered:disabled {
+  color: var(--button-bordered-foreground-disabled);
+  background-color: var(--button-bordered-background-disabled);
+  border-color: var(--button-bordered-border-default);
+}

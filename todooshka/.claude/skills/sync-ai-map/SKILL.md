@@ -11,17 +11,43 @@ Keeps `.ai-kit/*.kit.md` in sync with the Figma library and ui-kit TypeScript ty
 
 - Contract files: `.ai-kit/*.kit.md` (YAML frontmatter + markdown)
 - UI kit types: `../ui-kit/src/components/<Component>/<Component>.types.ts`
+- Token manifest: `.ai-kit/tokens.txt` (generated from the ui-kit CSS)
 - Report output: `.ai-kit/sync-report.md`
+
+## Step 0 — token manifest (run FIRST, no Figma required)
+
+Token drift needs no Figma at all, so this runs **before** the Figma gate below —
+otherwise the cheapest offline check would be unavailable exactly when Figma Desktop
+is down.
+
+```bash
+bash .ai-kit/bin/gen-tokens.sh
+```
+
+The script prints `unchanged` or `updated: … (N tokens)`. If it updated the file, get
+the added/removed names for the report with:
+
+```bash
+bash .ai-kit/bin/gen-tokens.sh --check   # exits 0 once regenerated
+git diff -- .ai-kit/tokens.txt
+```
+
+Writing the manifest is safe to do automatically — it is a purely derived flat list,
+which makes it the safest possible auto-update, in keeping with this skill's existing
+"apply safe changes" behaviour. Record the outcome for the `## Tokens` report section.
+
+If Figma is unavailable, still report the token result before aborting.
 
 ## Figma tool — hard requirement
 
 **Only `mcp__figma-desktop__get_design_context` is permitted.** Never use any remote Figma MCP tool.
 
-Before doing anything else, verify the tool is available. If `mcp__figma-desktop__get_design_context` is not accessible, stop immediately and output:
+After Step 0, verify the tool is available. If `mcp__figma-desktop__get_design_context` is not accessible, stop immediately and output:
 
 ```
 ❌ sync-ai-map: mcp__figma-desktop__get_design_context is not available.
 Open Figma Desktop and ensure the local MCP server is running, then retry.
+(Step 0 already ran — the token result above still stands.)
 ```
 
 Do not proceed, do not fall back to a remote tool.
@@ -90,7 +116,23 @@ tsc --noEmit
 
 If it fails, revert the contract changes for the affected component and add a `TS_ERROR` entry to the report.
 
-### 7. Write the report
+### 7. Registry & shim debt check
+
+`kit.json → figmaComponents` records each Figma component's implementation
+status; `src/shims/` holds the matching shim classes and stubs. **tokens.txt
+cannot detect when the ui-kit implements a variant or component — the tokens
+usually pre-exist the implementation — so this step is the only detector.**
+
+For each registry entry with a `shim` variant or `tokens-only` status:
+1. Check `../ui-kit/src/components/<Component>/<Component>.types.ts` for the
+   variant value / component.
+2. Implemented now → update the registry entry to `implemented` and add a
+   `🗑 REMOVE` entry to the report naming the shim/stub file and every usage:
+   `grep -rn "shim\.<class>\|shims/<Component>" src/`
+3. Still missing → leave the entry as is, list it under "Shim debt" so the
+   backlog stays visible.
+
+### 8. Write the report
 
 Save to `.ai-kit/sync-report.md`. Use this structure:
 
@@ -101,6 +143,11 @@ Save to `.ai-kit/sync-report.md`. Use this structure:
 - Components checked: N
 - Safe updates applied: N
 - Items needing attention: N
+
+## Tokens
+- `.ai-kit/tokens.txt` — fresh ✓   |   regenerated (commit it)
+- Added: `--x`, `--y`
+- Removed: `--z`
 
 ## Changes applied
 
@@ -115,6 +162,12 @@ Save to `.ai-kit/sync-report.md`. Use this structure:
 - ⚠️ NEW_PROPERTY `<figmaVariant>` — no matching prop in contract
 - ⚠️ REMOVED_PROPERTY `<prop>` — figmaVariant `<x>` no longer in Figma
 - ❌ TS_ERROR — changes reverted, see tsc output below
+
+## Shim debt
+- Button.ghost — still `shim` (kit types unchanged)
+- Card — still `tokens-only`
+- 🗑 Button.ghost — implemented in kit: delete `.ghost` from
+  `src/shims/button-variants.module.css`, migrate N usages (list them)
 
 ## No changes
 - <ComponentName> — contract matches Figma ✓

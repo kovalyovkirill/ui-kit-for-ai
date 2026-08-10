@@ -2,5 +2,62 @@
   "kit": "@monorepo/ui-kit",
   "kitVersion": "*",
   "tokensSource": "../ui-kit/src/styles/css/_varaibles-full.css",
-  "tokenRule": "slash-to-dash"
+  "tokensManifest": ".ai-kit/tokens.txt",
+  "tokensRegenerate": "bash .ai-kit/bin/gen-tokens.sh",
+  "tokensCheck": "bash .ai-kit/bin/gen-tokens.sh --check",
+  "tokensVerify": "bash .ai-kit/bin/check-tokens.sh src/pages/<PageName>",
+  "tokensNote": "tokens.txt is GENERATED and is a pure function of tokensSource. Never hand-edit it; regenerate instead. tokensSource is duplicated inside gen-tokens.sh — keep both in sync.",
+
+  "tokenRule": {
+    "summary": "Figma MCP emits slash- and dot-separated names. Normalise both.",
+    "replace": [
+      { "from": "/", "to": "-", "example": "--neutrals\\/surface → --neutrals-surface" },
+      { "from": ".", "to": "-", "example": "--spacing\\/1.5 → --spacing-1-5" }
+    ],
+    "note": "Never invent a token name. Every name written into CSS must exist verbatim in tokensManifest."
+  },
+
+  "invariants": {
+    "classNamePassthrough": true,
+    "restPropsSpread": true,
+    "shipsIcons": false,
+    "iconSpec": {
+      "location": "src/pages/<PageName>/icons.tsx",
+      "size": "16x16",
+      "viewBox": "0 0 16 16",
+      "stroke": "currentColor",
+      "strokeWidth": 1.5,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "ariaHidden": true,
+      "note": "The kit ships no icons. Author them locally; never import an icon library."
+    },
+    "note": "True for every component in this kit — do not read ui-kit source to re-verify."
+  },
+
+  "instanceRule": {
+    "summary": "A Figma layer is a component instance if its subtree carries instance-prefixed ids; resolve every instance through figmaComponents below.",
+    "isComponent": "the layer's own id starts with 'I', OR any descendant id starts with 'I<layerId>;' — e.g. layer 2159:2941 with child I2159:2941;1:12476 is a Badge instance",
+    "isPlainFrame": "no 'I'-prefixed ids anywhere in the subtree — e.g. 2159:2935 → hand-roll, even if the layer is named like a component",
+    "note": "The layer's own id alone is NOT the signal — instances usually expose the prefix on their children. Guard against lookalikes: a frame named 'CountBadge' with no I-ids is not a <Badge>."
+  },
+
+  "figmaComponents": {
+    "statusMeaning": {
+      "implemented": "use the kit component; detect the variant from token names in the MCP output (--button-ghost-* → ghost), never from the layer name",
+      "shim": "kit component with the base variant + shim class from src/shims/button-variants.module.css — see Button.kit.md → 'Unimplemented variants'",
+      "tokens-only": "no kit component, but its token family exists — use/create the stub in src/shims/<Component>/ built strictly on that family",
+      "missing": "no component, no tokens — hand-roll + mandatory drift-report entry"
+    },
+    "syncNote": "Statuses are maintained by /sync-ai-map against the ui-kit TS types. tokens.txt CANNOT detect an implemented variant/component — the tokens usually pre-exist the implementation.",
+    "Button":      { "status": "implemented", "variants": { "primary": "implemented", "secondary": "implemented", "link": "implemented", "ghost": "shim", "bordered": "shim", "clear": "shim" } },
+    "ButtonGroup": { "status": "implemented" },
+    "Typography":  { "status": "implemented" },
+    "Input":       { "status": "implemented" },
+    "Checkbox":    { "status": "implemented" },
+    "Avatar":      { "status": "implemented" },
+    "Badge":       { "status": "implemented" },
+    "Card":        { "status": "tokens-only", "tokens": "card-*", "stub": "src/shims/Card/" },
+    "Chip":        { "status": "tokens-only", "tokens": "chip-*", "stub": null }
+  }
 }

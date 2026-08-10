@@ -22,4 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.claude
+
+# Claude Code — локальные настройки игнорируем, скилы версионируем.
+.claude/*
+!.claude/skills/
