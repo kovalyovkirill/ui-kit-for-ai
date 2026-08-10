@@ -172,7 +172,10 @@ npm run dev                                                    #    only if step
   token; only when no token exists, keep it with a same-line
   `/* off-system: <reason> */` marker — which must then appear in the drift report.
 
-4. Screenshot `http://localhost:5173/` and compare against the Figma screenshot
+<!--
+4. (disabled — visual check is left to the user for live demos; re-enable if
+   unattended verification is needed again)
+   Screenshot `http://localhost:5173/` and compare against the Figma screenshot
    from Step 1. `tsc` cannot see a wrong token and the dev server will not error
    on one — this visual diff plus `check-tokens.sh` are the only detectors.
 
@@ -187,6 +190,12 @@ npm run dev                                                    #    only if step
    once: for each differing signal (strikethrough, brand border, child presence)
    check it in both images; `computer {action: "zoom"}` on a card when unsure.
    Whole-page eyeballing has passed a missing `line-through` before.
+-->
+
+Visual verification against the Figma screenshot from Step 1 is left to the
+user — do not open Chrome or take screenshots as part of this skill. State in
+the final report that `tsc` + `check-tokens.sh` passed and that visual review
+is pending the user's own check against the Step 1 screenshot.
 
 Then report what was built, what verification passed, and the drift — **typed**:
 
