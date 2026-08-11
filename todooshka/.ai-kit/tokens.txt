@@ -1,398 +1,417 @@
 # GENERATED — do not edit by hand.
 # source:     ui-kit/src/styles/css/_varaibles-full.css
-# regenerate: bash .ai-kit/bin/gen-tokens.sh
-accents-brand
-accents-danger
-accents-info
-accents-success
-accents-warning
-avatar-background
-avatar-border
-avatar-border-width
-avatar-foreground
-avatar-radius
-avatar-size-lg
-avatar-size-md
-avatar-size-sm
-avatar-size-xl
-badge-bordered-border
-badge-bordered-border-width
-badge-bordered-foreground
-badge-brand-background
-badge-brand-foreground
-badge-danger-background
-badge-danger-foreground
-badge-gap
-badge-info-background
-badge-info-foreground
-badge-neutral-background
-badge-neutral-foreground
-badge-padding-x
-badge-padding-x-lg
-badge-padding-x-md
-badge-padding-x-sm
-badge-padding-y
-badge-primary-background
-badge-primary-foreground
-badge-radius
-badge-secondary-background
-badge-secondary-foreground
-badge-success-background
-badge-success-foreground
-badge-warning-background
-badge-warning-foreground
-body-lg-fontfamily
-body-lg-fontsize
-body-lg-fontstyle
-body-lg-fontweight
-body-lg-lineheight
-body-md-fontfamily
-body-md-fontsize
-body-md-fontstyle
-body-md-fontweight
-body-md-lineheight
-body-sm-fontfamily
-body-sm-fontsize
-body-sm-fontstyle
-body-sm-fontweight
-body-sm-lineheight
-body-xl-fontfamily
-body-xl-fontsize
-body-xl-fontstyle
-body-xl-fontweight
-body-xl-lineheight
-body-xs-fontfamily
-body-xs-fontsize
-body-xs-fontstyle
-body-xs-fontweight
-body-xs-lineheight
-border-default
-border-strong
-border-width-default
-border-width-medium
-border-width-none
-border-width-thick
-border-width-thin
-brand-100
-brand-200
-brand-300
-brand-400
-brand-50
-brand-500
-brand-600
-brand-700
-brand-800
-brand-900
-brand-950
-button-bordered-background-active
-button-bordered-background-default
-button-bordered-background-disabled
-button-bordered-background-hover
-button-bordered-border-default
-button-bordered-border-width
-button-bordered-foreground-default
-button-bordered-foreground-disabled
-button-clear-background-active
-button-clear-background-hover
-button-clear-foreground-default
-button-clear-foreground-disabled
-button-danger-background-active
-button-danger-background-default
-button-danger-background-disabled
-button-danger-background-hover
-button-danger-border-default
-button-danger-focus-ring
-button-danger-foreground-default
-button-danger-foreground-disabled
-button-gap
-button-ghost-background-active
-button-ghost-background-hover
-button-ghost-focus-ring
-button-ghost-foreground-default
-button-ghost-foreground-disabled
-button-ghost-foreground-hover
-button-height-lg
-button-height-md
-button-height-sm
-button-height-xl
-button-link-foreground-default
-button-link-foreground-disabled
-button-link-foreground-hover
-button-padding-x-lg
-button-padding-x-md
-button-padding-x-sm
-button-padding-x-xl
-button-padding-y-lg
-button-padding-y-md
-button-padding-y-sm
-button-padding-y-xl
-button-primary-background-active
-button-primary-background-default
-button-primary-background-disabled
-button-primary-background-hover
-button-primary-border-default
-button-primary-focus-ring
-button-primary-foreground-default
-button-primary-foreground-disabled
-button-radius-default
-button-radius-lg
-button-radius-md
-button-radius-sm
-button-radius-xl
-button-secondary-background-active
-button-secondary-background-default
-button-secondary-background-disabled
-button-secondary-background-hover
-button-secondary-border-default
-button-secondary-border-hover
-button-secondary-focus-ring
-button-secondary-foreground-default
-button-secondary-foreground-disabled
-card-background
-card-border
-card-gap
-card-padding-lg
-card-padding-md
-card-padding-sm
-card-radius-lg
-card-radius-sm
-checkbox-background-checked
-checkbox-background-default
-checkbox-border-checked
-checkbox-border-default
-checkbox-border-hover
-checkbox-border-width-checked
-checkbox-border-width-default
-checkbox-checkmark
-checkbox-radius-lg
-checkbox-radius-md
-checkbox-radius-sm
-checkbox-size-lg
-checkbox-size-md
-checkbox-size-sm
-chip-background-active
-chip-background-default
-chip-background-hover
-chip-border-active
-chip-border-default
-chip-border-width
-chip-foreground-active
-chip-foreground-default
-chip-gap-lg
-chip-gap-md
-chip-gap-sm
-chip-height-lg
-chip-height-md
-chip-height-sm
-chip-padding-x-lg
-chip-padding-x-md
-chip-padding-x-sm
-chip-padding-y-lg
-chip-padding-y-md
-chip-padding-y-sm
-chip-radius
-code-md-fontfamily
-code-md-fontsize
-code-md-fontstyle
-code-md-fontweight
-code-md-lineheight
-code-sm-fontfamily
-code-sm-fontsize
-code-sm-fontstyle
-code-sm-fontweight
-code-sm-lineheight
-control-height-lg
-control-height-md
-control-height-sm
-control-height-xl
-danger-100
-danger-200
-danger-300
-danger-400
-danger-50
-danger-500
-danger-600
-danger-700
-danger-800
-danger-900
-danger-950
-display-2xl-fontfamily
-display-2xl-fontsize
-display-2xl-fontstyle
-display-2xl-fontweight
-display-2xl-lineheight
-display-lg-fontfamily
-display-lg-fontsize
-display-lg-fontstyle
-display-lg-fontweight
-display-lg-lineheight
-display-md-fontfamily
-display-md-fontsize
-display-md-fontstyle
-display-md-fontweight
-display-md-lineheight
-display-sm-fontfamily
-display-sm-fontsize
-display-sm-fontstyle
-display-sm-fontweight
-display-sm-lineheight
-display-xl-fontfamily
-display-xl-fontsize
-display-xl-fontstyle
-display-xl-fontweight
-display-xl-lineheight
-focus-ring-brand
-focus-ring-danger
-focus-ring-neutral
-fontfamily-mono
-fontfamily-sans
-foreground-on-accent
-foreground-primary
-foreground-quaternary
-foreground-secondary
-foreground-tertiary
-generic-0
-generic-1000
-grey-100
-grey-200
-grey-300
-grey-400
-grey-50
-grey-500
-grey-600
-grey-700
-grey-75
-grey-800
-grey-900
-grey-950
-info-100
-info-200
-info-300
-info-400
-info-50
-info-500
-info-600
-info-700
-info-800
-info-900
-info-950
-input-background-default
-input-background-disabled
-input-border-default
-input-border-disabled
-input-border-error
-input-border-focus
-input-border-hover
-input-border-width-default
-input-focus-ring
-input-foreground-default
-input-foreground-disabled
-input-foreground-error
-input-foreground-helper
-input-foreground-label
-input-foreground-placeholder
-input-gap
-input-height-lg
-input-height-md
-input-height-sm
-input-height-xl
-input-padding-x
-input-padding-x-lg
-input-padding-x-md
-input-padding-x-sm
-input-padding-x-xl
-input-padding-y
-input-padding-y-lg
-input-padding-y-md
-input-padding-y-sm
-input-padding-y-xl
-input-radius
-input-radius-lg
-input-radius-md
-input-radius-sm
-input-radius-xl
-interactive-brand-active
-interactive-brand-default
-interactive-brand-disabled
-interactive-brand-hover
-interactive-danger-active
-interactive-danger-default
-interactive-danger-disabled
-interactive-danger-hover
-interactive-secondary-active
-interactive-secondary-default
-interactive-secondary-disabled
-interactive-secondary-hover
-label-lg-fontfamily
-label-lg-fontsize
-label-lg-fontstyle
-label-lg-fontweight
-label-lg-lineheight
-label-md-fontfamily
-label-md-fontsize
-label-md-fontstyle
-label-md-fontweight
-label-md-lineheight
-label-sm-fontfamily
-label-sm-fontsize
-label-sm-fontstyle
-label-sm-fontweight
-label-sm-lineheight
-label-xs-fontfamily
-label-xs-fontsize
-label-xs-fontstyle
-label-xs-fontweight
-label-xs-lineheight
-neutrals-background
-neutrals-emphasis
-neutrals-muted
-neutrals-subtle
-neutrals-surface
-radius-2xl
-radius-3xl
-radius-full
-radius-lg
-radius-md
-radius-sm
-radius-xl
-radius-xs
-spacing-0
-spacing-0-5
-spacing-1
-spacing-1-5
-spacing-10
-spacing-12
-spacing-16
-spacing-2
-spacing-3
-spacing-4
-spacing-5
-spacing-6
-spacing-8
-success-100
-success-200
-success-300
-success-400
-success-50
-success-500
-success-600
-success-700
-success-800
-success-900
-success-950
-tint-brand
-tint-danger
-tint-info
-tint-success
-tint-warning
-warning-100
-warning-200
-warning-300
-warning-400
-warning-50
-warning-500
-warning-600
-warning-700
-warning-800
-warning-900
-warning-950
+# regenerate: node .ai-kit/bin/gen-tokens.mjs
+#
+# The source CSS is itself generated from the Figma variables, so every token
+# below is one Figma variable. Figma name → token: lowercase, "/"→"-", "."→"-"
+#   spacing/1.5 → --spacing-1-5      Display/2XL/fontSize → --display-2xl-fontsize
+#   button/padding-x/md → --button-padding-x-md
+# The reverse direction is NOT derivable from this file (the codegen flattens
+# "/" to "-"), so never reconstruct a Figma name from a token name.
+#
+# columns: NAME  TIER  REF  LIGHT  DARK
+#   TIER   sem   theme-scoped, declared ONLY in :root[data-theme=…]
+#          comp  component token, declared in :root, points at the sem layer
+#          prim  spacing / radius / border-width / control-height
+#          color raw palette hex
+#          type  font family / size / weight / line-height
+#   REF    the token this one points at; "-" if literal, or if the two themes
+#          point at different tokens (read LIGHT/DARK instead)
+#   LIGHT  value with the var() chain fully resolved, per [data-theme]
+#   DARK   same, dark theme. Equal columns = the token does not theme.
+#
+accents-brand                         sem    -                               #1072ea        #3e8bea
+accents-danger                        sem    danger-500                      #eb3a2d        #eb3a2d
+accents-info                          sem    info-500                        #226bf1        #226bf1
+accents-success                       sem    success-500                     #0ebe89        #0ebe89
+accents-warning                       sem    warning-500                     #ff8c1a        #ff8c1a
+avatar-background                     comp   neutrals-muted                  #eceaea        #0f0f10
+avatar-border                         comp   border-default                  #eceaea        #252528
+avatar-border-width                   comp   border-width-thin               0.5px          0.5px
+avatar-foreground                     comp   foreground-secondary            #3d3e42        #c2c1cd
+avatar-radius                         comp   radius-full                     9999px         9999px
+avatar-size-lg                        comp   control-height-xl               56px           56px
+avatar-size-md                        comp   spacing-10                      40px           40px
+avatar-size-sm                        comp   spacing-6                       24px           24px
+avatar-size-xl                        comp   -                               80px           80px
+badge-bordered-border                 comp   border-default                  #eceaea        #252528
+badge-bordered-border-width           comp   border-width-thin               0.5px          0.5px
+badge-bordered-foreground             comp   foreground-primary              #0f0f10        #fafafa
+badge-brand-background                comp   tint-brand                      #e6ecf4        #0e2239
+badge-brand-foreground                comp   accents-brand                   #1072ea        #3e8bea
+badge-danger-background               comp   accents-danger                  #eb3a2d        #eb3a2d
+badge-danger-foreground               comp   generic-0                       #ffffff        #ffffff
+badge-gap                             comp   spacing-1                       4px            4px
+badge-info-background                 comp   tint-info                       #d6e6ff        #08244f
+badge-info-foreground                 comp   accents-info                    #226bf1        #226bf1
+badge-neutral-background              comp   neutrals-subtle                 #f5f5f5        #252528
+badge-neutral-foreground              comp   foreground-secondary            #3d3e42        #c2c1cd
+badge-padding-x                       comp   spacing-2                       8px            8px
+badge-padding-x-lg                    comp   spacing-4                       16px           16px
+badge-padding-x-md                    comp   spacing-3                       12px           12px
+badge-padding-x-sm                    comp   spacing-2                       8px            8px
+badge-padding-y                       comp   spacing-0-5                     2px            2px
+badge-primary-background              comp   accents-brand                   #1072ea        #3e8bea
+badge-primary-foreground              comp   generic-0                       #ffffff        #ffffff
+badge-radius                          comp   radius-full                     9999px         9999px
+badge-secondary-background            comp   neutrals-subtle                 #f5f5f5        #252528
+badge-secondary-foreground            comp   foreground-primary              #0f0f10        #fafafa
+badge-success-background              comp   accents-success                 #0ebe89        #0ebe89
+badge-success-foreground              comp   generic-0                       #ffffff        #ffffff
+badge-warning-background              comp   accents-warning                 #ff8c1a        #ff8c1a
+badge-warning-foreground              comp   generic-0                       #ffffff        #ffffff
+body-lg-fontfamily                    type   -                               "Inter"        "Inter"
+body-lg-fontsize                      type   -                               18px           18px
+body-lg-fontstyle                     type   -                               "Regular"      "Regular"
+body-lg-fontweight                    type   -                               400            400
+body-lg-lineheight                    type   -                               27px           27px
+body-md-fontfamily                    type   -                               "Inter"        "Inter"
+body-md-fontsize                      type   -                               16px           16px
+body-md-fontstyle                     type   -                               "Regular"      "Regular"
+body-md-fontweight                    type   -                               400            400
+body-md-lineheight                    type   -                               24px           24px
+body-sm-fontfamily                    type   -                               "Inter"        "Inter"
+body-sm-fontsize                      type   -                               14px           14px
+body-sm-fontstyle                     type   -                               "Regular"      "Regular"
+body-sm-fontweight                    type   -                               400            400
+body-sm-lineheight                    type   -                               21px           21px
+body-xl-fontfamily                    type   -                               "Inter"        "Inter"
+body-xl-fontsize                      type   -                               20px           20px
+body-xl-fontstyle                     type   -                               "Regular"      "Regular"
+body-xl-fontweight                    type   -                               400            400
+body-xl-lineheight                    type   -                               30px           30px
+body-xs-fontfamily                    type   -                               "Inter"        "Inter"
+body-xs-fontsize                      type   -                               12px           12px
+body-xs-fontstyle                     type   -                               "Regular"      "Regular"
+body-xs-fontweight                    type   -                               400            400
+body-xs-lineheight                    type   -                               18px           18px
+border-default                        sem    -                               #eceaea        #252528
+border-strong                         sem    -                               #c2c1cd        #3d3e42
+border-width-default                  prim   -                               1px            1px
+border-width-medium                   prim   -                               1.5px          1.5px
+border-width-none                     prim   -                               0px            0px
+border-width-thick                    prim   -                               2px            2px
+border-width-thin                     prim   -                               0.5px          0.5px
+brand-100                             color  -                               #cddcee        #cddcee
+brand-200                             color  -                               #a5c4e9        #a5c4e9
+brand-300                             color  -                               #74a8e7        #74a8e7
+brand-400                             color  -                               #3e8bea        #3e8bea
+brand-50                              color  -                               #e6ecf4        #e6ecf4
+brand-500                             color  -                               #1072ea        #1072ea
+brand-600                             color  -                               #0e62c8        #0e62c8
+brand-700                             color  -                               #0c51a7        #0c51a7
+brand-800                             color  -                               #0e4281        #0e4281
+brand-900                             color  -                               #10325b        #10325b
+brand-950                             color  -                               #0e2239        #0e2239
+button-bordered-background-active     comp   interactive-secondary-active    #eceaea        #3d3e42
+button-bordered-background-default    comp   neutrals-surface                #ffffff        #000000
+button-bordered-background-disabled   comp   neutrals-surface                #ffffff        #000000
+button-bordered-background-hover      comp   interactive-secondary-default   #fafafa        #252528
+button-bordered-border-default        comp   border-strong                   #c2c1cd        #3d3e42
+button-bordered-border-width          comp   border-width-default            1px            1px
+button-bordered-foreground-default    comp   foreground-primary              #0f0f10        #fafafa
+button-bordered-foreground-disabled   comp   foreground-quaternary           #9697a2        #696b72
+button-clear-background-active        comp   interactive-secondary-active    #eceaea        #3d3e42
+button-clear-background-hover         comp   interactive-secondary-default   #fafafa        #252528
+button-clear-foreground-default       comp   foreground-primary              #0f0f10        #fafafa
+button-clear-foreground-disabled      comp   foreground-quaternary           #9697a2        #696b72
+button-danger-background-active       comp   interactive-danger-active       #ad321f        #fb9793
+button-danger-background-default      comp   interactive-danger-default      #eb3a2d        #eb3a2d
+button-danger-background-disabled     comp   interactive-danger-disabled     #ffe5e5        #61281a
+button-danger-background-hover        comp   interactive-danger-hover        #d7301d        #f56d66
+button-danger-border-default          comp   interactive-danger-default      #eb3a2d        #eb3a2d
+button-danger-focus-ring              comp   focus-ring-danger               #eb3a2d        #eb3a2d
+button-danger-foreground-default      comp   foreground-on-accent            #ffffff        #ffffff
+button-danger-foreground-disabled     comp   foreground-quaternary           #9697a2        #696b72
+button-gap                            comp   spacing-2                       8px            8px
+button-ghost-background-active        comp   interactive-secondary-active    #eceaea        #3d3e42
+button-ghost-background-hover         comp   interactive-secondary-hover     #f5f5f5        #292a2e
+button-ghost-focus-ring               comp   focus-ring-neutral              #0f0f10        #fafafa
+button-ghost-foreground-default       comp   foreground-secondary            #3d3e42        #c2c1cd
+button-ghost-foreground-disabled      comp   foreground-quaternary           #9697a2        #696b72
+button-ghost-foreground-hover         comp   foreground-primary              #0f0f10        #fafafa
+button-height-lg                      comp   control-height-lg               48px           48px
+button-height-md                      comp   control-height-md               40px           40px
+button-height-sm                      comp   control-height-sm               32px           32px
+button-height-xl                      comp   control-height-xl               56px           56px
+button-link-foreground-default        comp   interactive-brand-default       #1072ea        #3e8bea
+button-link-foreground-disabled       comp   interactive-brand-disabled      #a5c4e9        #10325b
+button-link-foreground-hover          comp   interactive-brand-hover         #0e62c8        #74a8e7
+button-padding-x-lg                   comp   spacing-5                       20px           20px
+button-padding-x-md                   comp   spacing-4                       16px           16px
+button-padding-x-sm                   comp   spacing-3                       12px           12px
+button-padding-x-xl                   comp   spacing-6                       24px           24px
+button-padding-y-lg                   comp   spacing-2                       8px            8px
+button-padding-y-md                   comp   spacing-2                       8px            8px
+button-padding-y-sm                   comp   spacing-1                       4px            4px
+button-padding-y-xl                   comp   spacing-3                       12px           12px
+button-primary-background-active      comp   interactive-brand-active        #0c51a7        #a5c4e9
+button-primary-background-default     comp   interactive-brand-default       #1072ea        #3e8bea
+button-primary-background-disabled    comp   interactive-brand-disabled      #a5c4e9        #10325b
+button-primary-background-hover       comp   interactive-brand-hover         #0e62c8        #74a8e7
+button-primary-border-default         comp   interactive-brand-default       #1072ea        #3e8bea
+button-primary-focus-ring             comp   focus-ring-brand                #1072ea        #3e8bea
+button-primary-foreground-default     comp   foreground-on-accent            #ffffff        #ffffff
+button-primary-foreground-disabled    comp   foreground-on-accent            #ffffff        #ffffff
+button-radius-default                 comp   radius-xl                       16px           16px
+button-radius-lg                      comp   radius-lg                       12px           12px
+button-radius-md                      comp   radius-lg                       12px           12px
+button-radius-sm                      comp   radius-sm                       8px            8px
+button-radius-xl                      comp   radius-xl                       16px           16px
+button-secondary-background-active    comp   interactive-secondary-active    #eceaea        #3d3e42
+button-secondary-background-default   comp   interactive-secondary-default   #fafafa        #252528
+button-secondary-background-disabled  comp   interactive-secondary-disabled  #fafafa        #252528
+button-secondary-background-hover     comp   interactive-secondary-hover     #f5f5f5        #292a2e
+button-secondary-border-default       comp   border-default                  #eceaea        #252528
+button-secondary-border-hover         comp   border-strong                   #c2c1cd        #3d3e42
+button-secondary-focus-ring           comp   focus-ring-neutral              #0f0f10        #fafafa
+button-secondary-foreground-default   comp   foreground-primary              #0f0f10        #fafafa
+button-secondary-foreground-disabled  comp   foreground-quaternary           #9697a2        #696b72
+card-background                       comp   neutrals-surface                #ffffff        #000000
+card-border                           comp   border-default                  #eceaea        #252528
+card-gap                              comp   spacing-4                       16px           16px
+card-padding-lg                       comp   spacing-8                       32px           32px
+card-padding-md                       comp   spacing-6                       24px           24px
+card-padding-sm                       comp   spacing-4                       16px           16px
+card-radius-lg                        comp   radius-lg                       12px           12px
+card-radius-sm                        comp   radius-sm                       8px            8px
+checkbox-background-checked           comp   accents-brand                   #1072ea        #3e8bea
+checkbox-background-default           comp   neutrals-surface                #ffffff        #000000
+checkbox-border-checked               comp   accents-brand                   #1072ea        #3e8bea
+checkbox-border-default               comp   border-strong                   #c2c1cd        #3d3e42
+checkbox-border-hover                 comp   accents-brand                   #1072ea        #3e8bea
+checkbox-border-width-checked         comp   border-width-default            1px            1px
+checkbox-border-width-default         comp   border-width-medium             1.5px          1.5px
+checkbox-checkmark                    comp   generic-0                       #ffffff        #ffffff
+checkbox-radius-lg                    comp   -                               7px            7px
+checkbox-radius-md                    comp   radius-md                       6px            6px
+checkbox-radius-sm                    comp   -                               5px            5px
+checkbox-size-lg                      comp   spacing-6                       24px           24px
+checkbox-size-md                      comp   spacing-5                       20px           20px
+checkbox-size-sm                      comp   spacing-4                       16px           16px
+chip-background-active                comp   tint-info                       #d6e6ff        #08244f
+chip-background-default               comp   neutrals-surface                #ffffff        #000000
+chip-background-hover                 comp   neutrals-subtle                 #f5f5f5        #252528
+chip-border-active                    comp   accents-info                    #226bf1        #226bf1
+chip-border-default                   comp   border-default                  #eceaea        #252528
+chip-border-width                     comp   border-width-thin               0.5px          0.5px
+chip-foreground-active                comp   accents-info                    #226bf1        #226bf1
+chip-foreground-default               comp   foreground-primary              #0f0f10        #fafafa
+chip-gap-lg                           comp   spacing-2                       8px            8px
+chip-gap-md                           comp   spacing-2                       8px            8px
+chip-gap-sm                           comp   spacing-1-5                     6px            6px
+chip-height-lg                        comp   control-height-lg               48px           48px
+chip-height-md                        comp   control-height-md               40px           40px
+chip-height-sm                        comp   control-height-sm               32px           32px
+chip-padding-x-lg                     comp   spacing-4                       16px           16px
+chip-padding-x-md                     comp   spacing-3                       12px           12px
+chip-padding-x-sm                     comp   spacing-2                       8px            8px
+chip-padding-y-lg                     comp   spacing-2                       8px            8px
+chip-padding-y-md                     comp   spacing-1-5                     6px            6px
+chip-padding-y-sm                     comp   spacing-1                       4px            4px
+chip-radius                           comp   radius-full                     9999px         9999px
+code-md-fontfamily                    type   -                               "Roboto Mono"  "Roboto Mono"
+code-md-fontsize                      type   -                               14px           14px
+code-md-fontstyle                     type   -                               "Regular"      "Regular"
+code-md-fontweight                    type   -                               400            400
+code-md-lineheight                    type   -                               25px           25px
+code-sm-fontfamily                    type   -                               "Roboto Mono"  "Roboto Mono"
+code-sm-fontsize                      type   -                               12px           12px
+code-sm-fontstyle                     type   -                               "Regular"      "Regular"
+code-sm-fontweight                    type   -                               400            400
+code-sm-lineheight                    type   -                               21px           21px
+control-height-lg                     prim   -                               48px           48px
+control-height-md                     prim   -                               40px           40px
+control-height-sm                     prim   -                               32px           32px
+control-height-xl                     prim   -                               56px           56px
+danger-100                            color  -                               #fec3c3        #fec3c3
+danger-200                            color  -                               #fb9793        #fb9793
+danger-300                            color  -                               #f56d66        #f56d66
+danger-400                            color  -                               #ef4f43        #ef4f43
+danger-50                             color  -                               #ffe5e5        #ffe5e5
+danger-500                            color  -                               #eb3a2d        #eb3a2d
+danger-600                            color  -                               #d7301d        #d7301d
+danger-700                            color  -                               #ad321f        #ad321f
+danger-800                            color  -                               #862f1d        #862f1d
+danger-900                            color  -                               #61281a        #61281a
+danger-950                            color  -                               #52050a        #52050a
+display-2xl-fontfamily                type   -                               "Inter"        "Inter"
+display-2xl-fontsize                  type   -                               36px           36px
+display-2xl-fontstyle                 type   -                               "Bold"         "Bold"
+display-2xl-fontweight                type   -                               700            700
+display-2xl-lineheight                type   -                               45px           45px
+display-lg-fontfamily                 type   -                               "Inter"        "Inter"
+display-lg-fontsize                   type   -                               24px           24px
+display-lg-fontstyle                  type   -                               "Semi Bold"    "Semi Bold"
+display-lg-fontweight                 type   -                               600            600
+display-lg-lineheight                 type   -                               30px           30px
+display-md-fontfamily                 type   -                               "Inter"        "Inter"
+display-md-fontsize                   type   -                               20px           20px
+display-md-fontstyle                  type   -                               "Semi Bold"    "Semi Bold"
+display-md-fontweight                 type   -                               600            600
+display-md-lineheight                 type   -                               25px           25px
+display-sm-fontfamily                 type   -                               "Inter"        "Inter"
+display-sm-fontsize                   type   -                               18px           18px
+display-sm-fontstyle                  type   -                               "Semi Bold"    "Semi Bold"
+display-sm-fontweight                 type   -                               600            600
+display-sm-lineheight                 type   -                               23px           23px
+display-xl-fontfamily                 type   -                               "Inter"        "Inter"
+display-xl-fontsize                   type   -                               30px           30px
+display-xl-fontstyle                  type   -                               "Bold"         "Bold"
+display-xl-fontweight                 type   -                               700            700
+display-xl-lineheight                 type   -                               38px           38px
+focus-ring-brand                      sem    -                               #1072ea        #3e8bea
+focus-ring-danger                     sem    danger-500                      #eb3a2d        #eb3a2d
+focus-ring-neutral                    sem    -                               #0f0f10        #fafafa
+fontfamily-mono                       type   -                               "Roboto Mono"  "Roboto Mono"
+fontfamily-sans                       type   -                               "Inter"        "Inter"
+foreground-on-accent                  sem    generic-0                       #ffffff        #ffffff
+foreground-primary                    sem    -                               #0f0f10        #fafafa
+foreground-quaternary                 sem    -                               #9697a2        #696b72
+foreground-secondary                  sem    -                               #3d3e42        #c2c1cd
+foreground-tertiary                   sem    -                               #696b72        #9697a2
+generic-0                             color  -                               #ffffff        #ffffff
+generic-1000                          color  -                               #000000        #000000
+grey-100                              color  -                               #eceaea        #eceaea
+grey-200                              color  -                               #c2c1cd        #c2c1cd
+grey-300                              color  -                               #9697a2        #9697a2
+grey-400                              color  -                               #696b72        #696b72
+grey-50                               color  -                               #fafafa        #fafafa
+grey-500                              color  -                               #3d3e42        #3d3e42
+grey-600                              color  -                               #303236        #303236
+grey-700                              color  -                               #292a2e        #292a2e
+grey-75                               color  -                               #f5f5f5        #f5f5f5
+grey-800                              color  -                               #3d3e42        #3d3e42
+grey-900                              color  -                               #252528        #252528
+grey-950                              color  -                               #0f0f10        #0f0f10
+info-100                              color  -                               #b4d3fd        #b4d3fd
+info-200                              color  -                               #89b7fa        #89b7fa
+info-300                              color  -                               #649cf7        #649cf7
+info-400                              color  -                               #4987f3        #4987f3
+info-50                               color  -                               #d6e6ff        #d6e6ff
+info-500                              color  -                               #226bf1        #226bf1
+info-600                              color  -                               #1652df        #1652df
+info-700                              color  -                               #1842b4        #1842b4
+info-800                              color  -                               #18338b        #18338b
+info-900                              color  -                               #162664        #162664
+info-950                              color  -                               #08244f        #08244f
+input-background-default              comp   neutrals-surface                #ffffff        #000000
+input-background-disabled             comp   neutrals-surface                #ffffff        #000000
+input-border-default                  comp   border-strong                   #c2c1cd        #3d3e42
+input-border-disabled                 comp   border-default                  #eceaea        #252528
+input-border-error                    comp   accents-danger                  #eb3a2d        #eb3a2d
+input-border-focus                    comp   accents-brand                   #1072ea        #3e8bea
+input-border-hover                    comp   accents-info                    #226bf1        #226bf1
+input-border-width-default            comp   border-width-default            1px            1px
+input-focus-ring                      comp   focus-ring-brand                #1072ea        #3e8bea
+input-foreground-default              comp   foreground-primary              #0f0f10        #fafafa
+input-foreground-disabled             comp   foreground-tertiary             #696b72        #9697a2
+input-foreground-error                comp   accents-danger                  #eb3a2d        #eb3a2d
+input-foreground-helper               comp   foreground-tertiary             #696b72        #9697a2
+input-foreground-label                comp   foreground-primary              #0f0f10        #fafafa
+input-foreground-placeholder          comp   foreground-quaternary           #9697a2        #696b72
+input-gap                             comp   spacing-2                       8px            8px
+input-height-lg                       comp   control-height-lg               48px           48px
+input-height-md                       comp   control-height-md               40px           40px
+input-height-sm                       comp   control-height-sm               32px           32px
+input-height-xl                       comp   control-height-xl               56px           56px
+input-padding-x                       comp   spacing-4                       16px           16px
+input-padding-x-lg                    comp   spacing-4                       16px           16px
+input-padding-x-md                    comp   spacing-3                       12px           12px
+input-padding-x-sm                    comp   spacing-3                       12px           12px
+input-padding-x-xl                    comp   spacing-4                       16px           16px
+input-padding-y                       comp   spacing-3                       12px           12px
+input-padding-y-lg                    comp   spacing-2                       8px            8px
+input-padding-y-md                    comp   spacing-2                       8px            8px
+input-padding-y-sm                    comp   spacing-1                       4px            4px
+input-padding-y-xl                    comp   spacing-3                       12px           12px
+input-radius                          comp   radius-xl                       16px           16px
+input-radius-lg                       comp   radius-lg                       12px           12px
+input-radius-md                       comp   radius-lg                       12px           12px
+input-radius-sm                       comp   radius-sm                       8px            8px
+input-radius-xl                       comp   radius-xl                       16px           16px
+interactive-brand-active              sem    -                               #0c51a7        #a5c4e9
+interactive-brand-default             sem    -                               #1072ea        #3e8bea
+interactive-brand-disabled            sem    -                               #a5c4e9        #10325b
+interactive-brand-hover               sem    -                               #0e62c8        #74a8e7
+interactive-danger-active             sem    -                               #ad321f        #fb9793
+interactive-danger-default            sem    danger-500                      #eb3a2d        #eb3a2d
+interactive-danger-disabled           sem    -                               #ffe5e5        #61281a
+interactive-danger-hover              sem    -                               #d7301d        #f56d66
+interactive-secondary-active          sem    -                               #eceaea        #3d3e42
+interactive-secondary-default         sem    -                               #fafafa        #252528
+interactive-secondary-disabled        sem    -                               #fafafa        #252528
+interactive-secondary-hover           sem    -                               #f5f5f5        #292a2e
+label-lg-fontfamily                   type   -                               "Inter"        "Inter"
+label-lg-fontsize                     type   -                               16px           16px
+label-lg-fontstyle                    type   -                               "Medium"       "Medium"
+label-lg-fontweight                   type   -                               500            500
+label-lg-lineheight                   type   -                               24px           24px
+label-md-fontfamily                   type   -                               "Inter"        "Inter"
+label-md-fontsize                     type   -                               14px           14px
+label-md-fontstyle                    type   -                               "Medium"       "Medium"
+label-md-fontweight                   type   -                               500            500
+label-md-lineheight                   type   -                               21px           21px
+label-sm-fontfamily                   type   -                               "Inter"        "Inter"
+label-sm-fontsize                     type   -                               12px           12px
+label-sm-fontstyle                    type   -                               "Medium"       "Medium"
+label-sm-fontweight                   type   -                               500            500
+label-sm-lineheight                   type   -                               18px           18px
+label-xs-fontfamily                   type   -                               "Inter"        "Inter"
+label-xs-fontsize                     type   -                               11px           11px
+label-xs-fontstyle                    type   -                               "Medium"       "Medium"
+label-xs-fontweight                   type   -                               500            500
+label-xs-lineheight                   type   -                               17px           17px
+neutrals-background                   sem    -                               #fafafa        #0f0f10
+neutrals-emphasis                     sem    -                               #c2c1cd        #3d3e42
+neutrals-muted                        sem    -                               #eceaea        #0f0f10
+neutrals-subtle                       sem    -                               #f5f5f5        #252528
+neutrals-surface                      sem    -                               #ffffff        #000000
+radius-2xl                            prim   -                               20px           20px
+radius-3xl                            prim   -                               24px           24px
+radius-full                           prim   -                               9999px         9999px
+radius-lg                             prim   -                               12px           12px
+radius-md                             prim   -                               6px            6px
+radius-sm                             prim   -                               8px            8px
+radius-xl                             prim   -                               16px           16px
+radius-xs                             prim   -                               4px            4px
+spacing-0                             prim   -                               0px            0px
+spacing-0-5                           prim   -                               2px            2px
+spacing-1                             prim   -                               4px            4px
+spacing-1-5                           prim   -                               6px            6px
+spacing-10                            prim   -                               40px           40px
+spacing-12                            prim   -                               48px           48px
+spacing-16                            prim   -                               64px           64px
+spacing-2                             prim   -                               8px            8px
+spacing-3                             prim   -                               12px           12px
+spacing-4                             prim   -                               16px           16px
+spacing-5                             prim   -                               20px           20px
+spacing-6                             prim   -                               24px           24px
+spacing-8                             prim   -                               32px           32px
+success-100                           color  -                               #b9e4ce        #b9e4ce
+success-200                           color  -                               #8ed7b5        #8ed7b5
+success-300                           color  -                               #5ccc9f        #5ccc9f
+success-400                           color  -                               #31c493        #31c493
+success-50                            color  -                               #d8eee4        #d8eee4
+success-500                           color  -                               #0ebe89        #0ebe89
+success-600                           color  -                               #119c77        #119c77
+success-700                           color  -                               #137c64        #137c64
+success-800                           color  -                               #125e4f        #125e4f
+success-900                           color  -                               #104139        #104139
+success-950                           color  -                               #030c08        #030c08
+tint-brand                            sem    -                               #e6ecf4        #0e2239
+tint-danger                           sem    -                               #ffe5e5        #52050a
+tint-info                             sem    -                               #d6e6ff        #08244f
+tint-success                          sem    -                               #d8eee4        #030c08
+tint-warning                          sem    -                               #fff4e5        #331a00
+warning-100                           color  -                               #fee3c3        #fee3c3
+warning-200                           color  -                               #fcca92        #fcca92
+warning-300                           color  -                               #f8b062        #f8b062
+warning-400                           color  -                               #fb9e41        #fb9e41
+warning-50                            color  -                               #fff4e5        #fff4e5
+warning-500                           color  -                               #ff8c1a        #ff8c1a
+warning-600                           color  -                               #e9730c        #e9730c
+warning-700                           color  -                               #b85b14        #b85b14
+warning-800                           color  -                               #8b4618        #8b4618
+warning-900                           color  -                               #623318        #623318
+warning-950                           color  -                               #331a00        #331a00

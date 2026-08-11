@@ -18,7 +18,7 @@ Generates production-ready React pages from Figma design nodes using the project
 One serial call, ~30 ms, before the batch below:
 
 ```bash
-bash .ai-kit/bin/gen-tokens.sh
+node .ai-kit/bin/gen-tokens.mjs
 ```
 
 `.ai-kit/tokens.txt` is generated from the ui-kit CSS. This self-heals it so the list
@@ -39,9 +39,11 @@ Issue **all of these in a single response** (they are independent — do not ser
 - Read **every** `.ai-kit/*.kit.md` (glob the directory — read them all, don't pre-guess which apply)
 
 **Hard rule: do not write a single file until this batch has returned.** Never
-read `@monorepo/ui-kit` source mid-implementation to check a prop — everything you
-need is in the contracts. If something genuinely is not, finish the page, then
-report the gap instead of guessing.
+read `@monorepo/ui-kit` source mid-implementation — not for a prop (that is in the
+`.kit.md` contracts) and not for a token *value* (that is in `tokens.txt`, which
+carries `TIER · REF · LIGHT · DARK` with every `var()` chain resolved). Both
+lookups cost a serial round trip and both are already answered. If something
+genuinely is not, finish the page, then report the gap instead of guessing.
 
 The screenshot is **not** a source of structure (the code blob has all of it) — it
 is the **reference image for Step 5**. Keep it in context.
@@ -74,7 +76,10 @@ variant resolves to a kit `<Button>`, directly or via shim.
 **Plain frames too:** before styling a hand-rolled frame with generic semantic
 tokens, check `tokens.txt` for a family named after the pattern (`card-*`,
 `chip-*`). If one exists, use it — that is what makes the future kit migration
-a grep instead of a restyle.
+a grep instead of a restyle. Use the `REF`/`LIGHT`/`DARK` columns to confirm the
+swap is visually identical (`card-padding-sm  comp  spacing-4  16px  16px` — same
+pixels, better name); a family member whose value differs from what Figma drew is
+a real mismatch, so keep the Figma value and report it.
 
 ### 2b. Which `Typography` variant?
 
@@ -141,8 +146,8 @@ the mockup didn't have; both were visible in the code blob the whole time.
 1. **Only `@monorepo/ui-kit` components.** No plain HTML for anything the kit covers.
 2. **Every text node → `<Typography>`.** Never raw text, never bare `<p>/<h1>/<span>`.
 3. **CSS values → only `var(--token)`.** No hardcoded colours, fonts, sizes, radii or spacing.
-4. **Every token name must exist verbatim in `.ai-kit/tokens.txt`.** Normalise what
-   Figma emits — `/` → `-` **and** `.` → `-`:
+4. **Every token name must exist verbatim in the `NAME` column of `.ai-kit/tokens.txt`.**
+   Normalise what Figma emits — `/` → `-` **and** `.` → `-`:
    `var(--neutrals\/surface)` → `var(--neutrals-surface)`;
    `var(--spacing\/1.5)` → `var(--spacing-1-5)`.
    Inventing a plausible-looking name is the single most common failure — it
@@ -158,15 +163,15 @@ Run all four, in order:
 
 ```bash
 npx tsc --noEmit                                               # 1. types
-bash .ai-kit/bin/check-tokens.sh src/pages/<PageName>          # 2. tokens (page)
-bash .ai-kit/bin/check-tokens.sh src/shims                     # 2b. tokens (only if the page uses shims/stubs)
+node .ai-kit/bin/check-tokens.mjs src/pages/<PageName>         # 2. tokens (page)
+node .ai-kit/bin/check-tokens.mjs src/shims                    # 2b. tokens (only if the page uses shims/stubs)
 curl -s -o /dev/null -w "%{http_code}" http://localhost:5173/  # 3. already running?
 npm run dev                                                    #    only if step 3 failed
 ```
 
-`check-tokens.sh` has three distinct failure modes — read which one you got:
+`check-tokens` has three distinct failure modes — read which one you got:
 - **`tokens.txt is STALE`** → the manifest is behind the ui-kit. Run
-  `bash .ai-kit/bin/gen-tokens.sh` and re-check. **Do not touch your CSS.**
+  `node .ai-kit/bin/gen-tokens.mjs` and re-check. **Do not touch your CSS.**
 - **`UNKNOWN TOKEN: --x`** → that name does not exist in the ui-kit. Fix your CSS.
 - **`HARDCODED VALUE`** → a raw px/hex slipped into the CSS. Replace it with a
   token; only when no token exists, keep it with a same-line
@@ -177,7 +182,7 @@ npm run dev                                                    #    only if step
    unattended verification is needed again)
    Screenshot `http://localhost:5173/` and compare against the Figma screenshot
    from Step 1. `tsc` cannot see a wrong token and the dev server will not error
-   on one — this visual diff plus `check-tokens.sh` are the only detectors.
+   on one — this visual diff plus `check-tokens` are the only detectors.
 
    Exact browser recipe — screenshot is an **action of the `computer` tool**,
    there is no standalone screenshot tool (a past run burned 6 calls hunting
@@ -194,7 +199,7 @@ npm run dev                                                    #    only if step
 
 Visual verification against the Figma screenshot from Step 1 is left to the
 user — do not open Chrome or take screenshots as part of this skill. State in
-the final report that `tsc` + `check-tokens.sh` passed and that visual review
+the final report that `tsc` + `check-tokens` passed and that visual review
 is pending the user's own check against the Step 1 screenshot.
 
 Then report what was built, what verification passed, and the drift — **typed**:
@@ -222,10 +227,13 @@ For a pattern the kit does not cover, check `kit.json → figmaComponents` first
 ## Maintenance
 
 `.ai-kit/tokens.txt` is generated and is a pure function of the ui-kit CSS — never
-hand-edit it. Step 0 refreshes it automatically, so normally there is nothing to do.
+hand-edit it. That CSS is in turn generated from the Figma variables, so the
+manifest is the code-side view of the Figma token set: one row per Figma variable,
+with the tier (`sem`/`comp`/`prim`/`color`/`type`) mirroring the Figma collection
+it came from. Step 0 refreshes it automatically, so normally there is nothing to do.
 To refresh or audit it manually:
 
 ```bash
-bash .ai-kit/bin/gen-tokens.sh           # write it
-bash .ai-kit/bin/gen-tokens.sh --check   # exit 1 + names if stale, writes nothing
+node .ai-kit/bin/gen-tokens.mjs           # write it
+node .ai-kit/bin/gen-tokens.mjs --check   # exit 1 + names if stale, writes nothing
 ```

@@ -3,10 +3,21 @@
   "kitVersion": "*",
   "tokensSource": "../ui-kit/src/styles/css/_varaibles-full.css",
   "tokensManifest": ".ai-kit/tokens.txt",
-  "tokensRegenerate": "bash .ai-kit/bin/gen-tokens.sh",
-  "tokensCheck": "bash .ai-kit/bin/gen-tokens.sh --check",
-  "tokensVerify": "bash .ai-kit/bin/check-tokens.sh src/pages/<PageName>",
-  "tokensNote": "tokens.txt is GENERATED and is a pure function of tokensSource. Never hand-edit it; regenerate instead. tokensSource is duplicated inside gen-tokens.sh — keep both in sync.",
+  "tokensRegenerate": "node .ai-kit/bin/gen-tokens.mjs",
+  "tokensCheck": "node .ai-kit/bin/gen-tokens.mjs --check",
+  "tokensVerify": "node .ai-kit/bin/check-tokens.mjs src/pages/<PageName>",
+  "tokensNote": "tokens.txt is GENERATED and is a pure function of tokensSource. Never hand-edit it; regenerate instead. The scripts in .ai-kit/bin/ read tokensSource from this file, so this line is the only place the path is written.",
+  "tokensFormat": {
+    "columns": ["NAME", "TIER", "REF", "LIGHT", "DARK"],
+    "tiers": {
+      "sem": "theme-scoped; declared ONLY inside :root[data-theme=light|dark]",
+      "comp": "component token, declared in :root, points at the sem layer",
+      "prim": "spacing / radius / border-width / control-height",
+      "color": "raw palette hex",
+      "type": "font family / size / weight / line-height"
+    },
+    "note": "REF is the token this one points at ('-' if literal, or if the two themes point at different tokens). LIGHT/DARK carry the value with the var() chain fully resolved, so the ui-kit CSS never has to be opened to compare two tokens or to see whether one themes."
+  },
 
   "tokenRule": {
     "summary": "Figma MCP emits slash- and dot-separated names. Normalise both.",
@@ -14,7 +25,8 @@
       { "from": "/", "to": "-", "example": "--neutrals\\/surface → --neutrals-surface" },
       { "from": ".", "to": "-", "example": "--spacing\\/1.5 → --spacing-1-5" }
     ],
-    "note": "Never invent a token name. Every name written into CSS must exist verbatim in tokensManifest."
+    "note": "Never invent a token name. Every name written into CSS must exist verbatim in the NAME column of tokensManifest.",
+    "direction": "tokensSource is itself generated from the Figma variables, so each token IS one Figma variable. Figma name -> token is mechanical (the replacements above). The reverse is NOT derivable, because the codegen flattens '/' to '-' and button-padding-x-md could be button/padding-x/md or button/padding/x/md — never reconstruct a Figma name from a token name."
   },
 
   "invariants": {
@@ -50,6 +62,7 @@
       "missing": "no component, no tokens — hand-roll + mandatory drift-report entry"
     },
     "syncNote": "Statuses are maintained by /sync-ai-map against the ui-kit TS types. tokens.txt CANNOT detect an implemented variant/component — the tokens usually pre-exist the implementation.",
+    "stubMeaning": "Path to the stub that EXISTS on disk today, or null if nobody has built one yet. Never aspirational: `node .ai-kit/bin/kit-audit.mjs` fails on a declared path that is not there. For a tokens-only component with stub=null, the generator creates src/shims/<Component>/ on first use and /sync-ai-map records the path here.",
     "Button":      { "status": "implemented", "variants": { "primary": "implemented", "secondary": "implemented", "link": "implemented", "ghost": "shim", "bordered": "shim", "clear": "shim" } },
     "ButtonGroup": { "status": "implemented" },
     "Typography":  { "status": "implemented" },
@@ -57,7 +70,7 @@
     "Checkbox":    { "status": "implemented" },
     "Avatar":      { "status": "implemented" },
     "Badge":       { "status": "implemented" },
-    "Card":        { "status": "tokens-only", "tokens": "card-*", "stub": "src/shims/Card/" },
+    "Card":        { "status": "tokens-only", "tokens": "card-*", "stub": null },
     "Chip":        { "status": "tokens-only", "tokens": "chip-*", "stub": null }
   }
 }

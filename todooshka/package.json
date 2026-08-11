@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tokens": "node .ai-kit/bin/gen-tokens.mjs",
+    "tokens:check": "node .ai-kit/bin/gen-tokens.mjs --check",
+    "check-tokens": "node .ai-kit/bin/check-tokens.mjs",
+    "kit-audit": "node .ai-kit/bin/kit-audit.mjs"
   },
   "dependencies": {
     "@monorepo/ui-kit": "*",
