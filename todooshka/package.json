@@ -8,18 +8,24 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "api": "openapi-ts",
+    "api:check": "openapi-ts && git diff --exit-code -- src/shared/api/tasks",
     "tokens": "node .ai-kit/bin/gen-tokens.mjs",
     "tokens:check": "node .ai-kit/bin/gen-tokens.mjs --check",
     "check-tokens": "node .ai-kit/bin/check-tokens.mjs",
     "kit-audit": "node .ai-kit/bin/kit-audit.mjs"
   },
   "dependencies": {
+    "@hookform/resolvers": "5.9.1",
     "@monorepo/ui-kit": "*",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-hook-form": "7.85.0",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@hey-api/openapi-ts": "0.97.3",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

@@ -98,7 +98,8 @@ One Figma layer name = **one** component file. Differences between instances are
 **props**, not extra files (`TaskCard` with `variant="completed"`, not
 `TaskCard` + `CompletedTaskCard`).
 
-Empty directories already present under `src/pages/<PageName>/` are a
+Every such component goes to `components/<Name>/` (see Step 3), never next to the
+page file. Empty directories already present under `src/pages/<PageName>/` are a
 decomposition hint left for you — fill them, do not investigate their git history.
 
 ### 2d. Icons
@@ -132,14 +133,35 @@ the mockup didn't have; both were visible in the code blob the whole time.
 
 ## Step 3 — output structure
 
-- Pages live in `src/pages/<PageName>/`
-- Every component is exactly two files: `<Name>.tsx` + `<Name>.module.css`
-- Sub-components nest in their own folder: `KanbanBoard/TaskCard/TaskCard.tsx`
-- The page file **only composes** — no layout or styling logic in it
-- Render the finished page from `src/App.tsx`
+A page is a module with two segments and exactly one exit:
+
+```
+src/pages/<PageName>/
+├── index.ts                 ← export { <PageName> } and NOTHING else
+├── <PageName>.tsx           ← composes only
+├── <PageName>.module.css
+├── components/              ← one folder per sub-component, two files each
+│   └── <Name>/<Name>.tsx + <Name>.module.css
+└── model/                   ← only if the page has data or a form
+    └── use<X>.ts, <x>.ts
+```
+
+- **`index.ts` exports only the page component.** Sub-components, hooks and maps
+  are internals — nothing else crosses the folder boundary.
+- **No barrels inside `components/` and `model/`.** Import by direct relative path
+  (`./components/PriorityPicker/PriorityPicker`).
+- **`model/` owns data, `components/` owns pixels.** Anything that knows about the
+  API, validation or label↔value mapping goes to `model/`; a component receives it
+  through props and never imports from the API layer itself.
+- Nesting deeper than one level lives inside its parent component's folder
+  (`components/KanbanBoard/TaskCard/TaskCard.tsx`).
+- Render the finished page from `src/App.tsx` — `import { X } from './pages/X'`.
 - **Write every file of the page in ONE parallel batch** — they are independent;
   serial writes were the second-largest time cost in past runs (~7 wasted round
   trips). The only serial follow-up is `App.tsx` (Read → Edit).
+
+`src/pages/TodoList/` predates this layout and has not been migrated — do not copy
+its shape.
 
 ## Step 4 — coding rules
 
@@ -214,7 +236,7 @@ paper over a mismatch.
 
 ## Available components
 
-`Button` · `ButtonGroup` / `ButtonGroupItem` · `Typography` · `Input` · `Checkbox` · `Avatar` · `Badge`
+`Button` · `ButtonGroup` / `ButtonGroupItem` · `Typography` · `Input` · `Textarea` · `Checkbox` · `Avatar` · `Badge`
 
 Full props, variant/size/state mappings and tokens: `.ai-kit/<ComponentName>.kit.md`.
 

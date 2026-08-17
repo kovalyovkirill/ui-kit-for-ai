@@ -1,0 +1,127 @@
+/* Figma binds this component to the semantic layer directly (border/strong,
+   neutrals/surface, …) rather than to a textarea/* component family — there is
+   no such family in the variable set. Do not substitute the input-* tokens:
+   they resolve to the same values today, but they are a different Figma
+   variable and would make this CSS disagree with the design source. */
+
+/* ─── Root wrapper ─── */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+/* ─── Label ─── */
+.label {
+  font-family: var(--fontfamily-sans);
+  font-size: var(--label-sm-fontsize);
+  font-weight: var(--label-sm-fontweight);
+  line-height: var(--label-sm-lineheight);
+  color: var(--foreground-primary);
+  display: block;
+}
+
+/* ─── Field (visible bordered box) ─── */
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: var(--border-width-default);
+  border-color: var(--border-strong);
+  background: var(--neutrals-surface);
+  transition: border-color 150ms ease;
+}
+
+.field:hover {
+  border-color: var(--accents-info);
+}
+
+.field:focus-within {
+  border-color: var(--accents-brand);
+}
+
+/* Error — overrides hover/focus */
+.field-error,
+.field-error:hover,
+.field-error:focus-within {
+  border-color: var(--accents-danger);
+}
+
+/* Disabled */
+.field-disabled {
+  border-color: var(--border-default);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Size variants ───
+   min-height is off-system: Figma hardcodes these heights on the Textarea
+   variants instead of binding a variable, so there is no token to reference.
+   Bind them in Figma and replace these literals when that happens. */
+.field-sm {
+  min-height: 56px; /* off-system: no Figma variable for Textarea min-height */
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+}
+
+.field-md {
+  min-height: 80px; /* off-system: no Figma variable for Textarea min-height */
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+}
+
+.field-lg {
+  min-height: 112px; /* off-system: no Figma variable for Textarea min-height */
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-lg);
+}
+
+.field-xl {
+  min-height: 144px; /* off-system: no Figma variable for Textarea min-height */
+  padding: var(--spacing-3);
+  border-radius: var(--radius-xl);
+}
+
+/* ─── Native <textarea> ─── */
+.textarea {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  resize: vertical;
+  font-family: var(--fontfamily-sans);
+  color: var(--foreground-primary);
+}
+
+.textarea::placeholder {
+  color: var(--foreground-quaternary);
+}
+
+.textarea:disabled {
+  color: var(--foreground-tertiary);
+  cursor: not-allowed;
+}
+
+/* ─── Text size per size variant ─── */
+.textarea-sm,
+.textarea-md {
+  font-size: var(--body-sm-fontsize);
+  font-weight: var(--body-sm-fontweight);
+  line-height: var(--body-sm-lineheight);
+}
+
+.textarea-lg,
+.textarea-xl {
+  font-size: var(--body-md-fontsize);
+  font-weight: var(--body-md-fontweight);
+  line-height: var(--body-md-lineheight);
+}

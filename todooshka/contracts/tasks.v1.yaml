@@ -1,0 +1,109 @@
+openapi: 3.1.0
+
+info:
+  title: Tasks API
+  version: 1.0.0
+  description: |
+    Контракт задач. Артефакт бэкенда — читается генератором формы, не редактируется вручную.
+    UI-метаданные (лейблы, порядок полей, виджеты) здесь намеренно отсутствуют:
+    связь «поле схемы ↔ слой макета» живёт в ADR.
+
+paths:
+  /api/tasks/v1/create:
+    post:
+      operationId: createTask
+      summary: Создать задачу
+      tags: [tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '201':
+          description: Задача создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '422':
+          description: Ошибка валидации на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+components:
+  schemas:
+
+    Priority:
+      type: string
+      enum: [high, medium, low]
+      description: Приоритет задачи
+
+    TaskStatus:
+      type: string
+      enum: [todo, in_progress, done]
+
+    CreateTaskRequest:
+      type: object
+      additionalProperties: false
+      required: [title, priority]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: Название задачи
+        description:
+          type: string
+          maxLength: 1000
+          description: Развёрнутое описание задачи
+        priority:
+          $ref: '#/components/schemas/Priority'
+          default: medium
+
+    Task:
+      type: object
+      required: [id, title, priority, status, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          $ref: '#/components/schemas/Priority'
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        createdAt:
+          type: string
+          format: date-time
+
+    ValidationError:
+      type: object
+      required: [errors]
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+
+    FieldError:
+      type: object
+      required: [field, code, message]
+      properties:
+        field:
+          type: string
+          description: Имя поля из CreateTaskRequest, к которому относится ошибка
+          examples: [title]
+        code:
+          type: string
+          description: Машинный код ошибки — по нему форма выбирает текст
+          examples: [required, too_long, invalid_enum]
+        message:
+          type: string
+          description: Текст с сервера; используется как fallback, если code неизвестен

@@ -67,6 +67,7 @@
     "ButtonGroup": { "status": "implemented" },
     "Typography":  { "status": "implemented" },
     "Input":       { "status": "implemented" },
+    "Textarea":    { "status": "implemented" },
     "Checkbox":    { "status": "implemented" },
     "Avatar":      { "status": "implemented" },
     "Badge":       { "status": "implemented" },

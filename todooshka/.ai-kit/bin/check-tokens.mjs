@@ -65,19 +65,56 @@ if (cssFiles.length === 0) {
   process.exit(0)
 }
 
+// Blanks out /* … */ regions while preserving both the line count and the column
+// count, so `code[i]` lines up with `lines[i]`. Without this, a comment explaining
+// a design decision ("16px, not 8px, because …") is scanned as if it were a
+// declaration and reported as a hardcoded value — a false positive that pushes
+// the author to delete the explanation rather than fix anything.
+function stripComments(source) {
+  let out = ''
+  let inComment = false
+  for (let i = 0; i < source.length; i += 1) {
+    if (!inComment && source[i] === '/' && source[i + 1] === '*') {
+      inComment = true
+      out += '  '
+      i += 1
+      continue
+    }
+    if (inComment && source[i] === '*' && source[i + 1] === '/') {
+      inComment = false
+      out += '  '
+      i += 1
+      continue
+    }
+    if (inComment) {
+      out += source[i] === '\n' ? '\n' : ' '
+      continue
+    }
+    out += source[i]
+  }
+  return out
+}
+
 // Read every file once; each check below works off these lines.
-const files = cssFiles.map((path) => ({
-  path,
-  label: relative(ROOT, path),
-  lines: readFileSync(path, 'utf8').split('\n'),
-}))
+// `lines` is the file as written — used for reporting and for the same-line
+// `off-system:` marker, which lives inside a comment on purpose.
+// `code` is the same file with comments blanked out — used for every check.
+const files = cssFiles.map((path) => {
+  const source = readFileSync(path, 'utf8')
+  return {
+    path,
+    label: relative(ROOT, path),
+    lines: source.split('\n'),
+    code: stripComments(source).split('\n'),
+  }
+})
 
 const known = new Set(readManifestNames())
 
 // Custom properties declared locally inside the page itself are legitimate too.
 const localDefs = new Set()
 for (const file of files) {
-  for (const line of file.lines) {
+  for (const line of file.code) {
     const m = line.match(/^[ \t]*--([a-z0-9-]+)[ \t]*:/)
     if (m) localDefs.add(m[1])
   }
@@ -89,7 +126,7 @@ for (const file of files) {
 // `--spacing-1` and let the Figma dot-vs-dash bug through.
 const used = new Set()
 for (const file of files) {
-  for (const line of file.lines) {
+  for (const line of file.code) {
     for (const m of line.matchAll(/var\(--([^),;\s]+)/g)) used.add(m[1])
   }
 }
@@ -120,11 +157,12 @@ for (const token of [...used].sort()) {
 const HARDCODED = /([2-9]|[0-9]{2,})(\.[0-9]+)?px|#[0-9a-fA-F]{3,8}/
 const hardcoded = []
 for (const file of files) {
-  file.lines.forEach((line, i) => {
+  file.code.forEach((line, i) => {
     if (!HARDCODED.test(line)) return
-    if (line.includes('off-system:')) return
+    // The marker itself is a comment, so it is only present in the raw line.
+    if (file.lines[i].includes('off-system:')) return
     if (/^[ \t]*outline/.test(line)) return
-    hardcoded.push(`    ${file.label}:${i + 1}: ${line.trim()}`)
+    hardcoded.push(`    ${file.label}:${i + 1}: ${file.lines[i].trim()}`)
   })
 }
 
