@@ -68,10 +68,11 @@
     "Typography":  { "status": "implemented" },
     "Input":       { "status": "implemented" },
     "Textarea":    { "status": "implemented" },
-    "Checkbox":    { "status": "implemented" },
+    "Checkbox":    { "status": "implemented", "detached": "a layer named Checkbox without I-ids (plain frame or exported <img>) is still <Checkbox size=\"sm\"> — see Checkbox.kit.md → Detached layers" },
     "Avatar":      { "status": "implemented" },
     "Badge":       { "status": "implemented" },
     "Card":        { "status": "tokens-only", "tokens": "card-*", "stub": null },
-    "Chip":        { "status": "tokens-only", "tokens": "chip-*", "stub": null }
+    "Chip":        { "status": "tokens-only", "tokens": "chip-*", "stub": null },
+    "Link":        { "status": "missing", "handRoll": "text link (body-sm, accents-brand): <button type=\"button\"> reset to look like text (padding 0, border 0, background none, cursor pointer, font: inherit — and no other font property: Typography inside sets the metrics) wrapping <Typography variant=\"bodySm\" color=\"accents-brand\">. Not a Button — its tokens are body-sm/accents-brand, not button-link-*." }
   }
 }

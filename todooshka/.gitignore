@@ -26,3 +26,6 @@ dist-ssr
 # Claude Code — локальные настройки игнорируем, скилы версионируем.
 .claude/*
 !.claude/skills/
+
+# figma-digest cache (blob + digest per Figma node) — regenerated every run
+.ai-kit/.cache/

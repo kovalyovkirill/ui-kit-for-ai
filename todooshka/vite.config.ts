@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -11,5 +12,9 @@ export default defineConfig({
     // useRef — так react-hook-form уже уронил страницу. dedupe удерживает один
     // экземпляр независимо от того, куда npm разложит пакеты.
     dedupe: ['react', 'react-dom'],
+    // Kit debt (variant shims, component stubs) is imported by alias, never by a
+    // relative path: generated pages kept getting the ../ depth wrong (tsc cannot
+    // see it for CSS modules) or copied the shim into the page to dodge it.
+    alias: { '@shims': fileURLToPath(new URL('./src/shims', import.meta.url)) },
   },
 })

@@ -13,7 +13,10 @@
     "tokens": "node .ai-kit/bin/gen-tokens.mjs",
     "tokens:check": "node .ai-kit/bin/gen-tokens.mjs --check",
     "check-tokens": "node .ai-kit/bin/check-tokens.mjs",
-    "kit-audit": "node .ai-kit/bin/kit-audit.mjs"
+    "check-page": "node .ai-kit/bin/check-page.mjs",
+    "figma-digest": "node .ai-kit/bin/figma-digest.mjs",
+    "kit-audit": "node .ai-kit/bin/kit-audit.mjs",
+    "preflight": "node .ai-kit/bin/preflight.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",

@@ -30,7 +30,10 @@ Use for all clickable actions. For a segmented filter/switcher, use `ButtonGroup
 `Bordered`, `Clear`, `Ghost` exist in Figma but the kit does not implement them.
 A Figma Button instance still always renders as a kit `<Button>`: pick the base
 variant below and attach the shim class from
-`src/shims/button-variants.module.css`. Detect which variant you are looking at
+`src/shims/button-variants.module.css` — imported **by alias, from any depth**:
+`import shim from '@shims/button-variants.module.css'`. Never a relative `../` path
+(past runs got the depth wrong and the page did not load) and never a copy of the
+file inside the page. Detect which variant you are looking at
 from the **token names in the MCP output** — never from the layer name.
 
 | Tokens in MCP output | Figma Variant | Render as |

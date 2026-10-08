@@ -55,10 +55,22 @@
   `npm run tokens` · `tokens:check` · `kit-audit` · `check-tokens -- <path>`
   (the `--` is required to pass a path through npm). Skills call `node …` directly
   so they do not depend on the working directory
+- `node .ai-kit/bin/figma-digest.mjs <nodeId|url>` answers "what is this Figma
+  layer" questions — instance vs frame, registry status and variant, text style →
+  Typography variant, family-token equality, repeated-layer differences — by
+  calling the Figma desktop MCP over HTTP (`127.0.0.1:3845/mcp`) and parsing the
+  blob. Use it instead of reading the blob by eye; exit 2 = it could not run.
+  `preflight <node>` runs it and records the node; `check-page` then checks the
+  page against that digest (or `--figma <nodeId>` for another one)
 - Before start `npm run dev` check app is running on http://localhost:5173/
 - React exists twice in this monorepo: the root has 18 (Storybook 8 in `ui-kit`
   pins it), todooshka has 19. Any package npm hoists to the root resolves the
   18 copy, and its hooks then crash with `Cannot read properties of null (reading
   'useRef')`. `resolve.dedupe: ['react', 'react-dom']` in `vite.config.ts` is what
   keeps this from happening — do not remove it, and suspect it first if a hook
-  library blows up on a null dispatcher
+  library blows up on a null dispatcher. The same split exists for types: the
+  ui-kit's `dist/*.d.ts` would resolve the root `@types/react@18`, and passing a
+  React 19 `ReactNode` as kit `children` then fails `tsc` (`Type 'bigint' is not
+  assignable`). `compilerOptions.paths.react` in `tsconfig.app.json` pins it to the
+  local copy — do not remove it, and type pass-through children as `ReactNode`,
+  never narrow them to `string` to silence that error

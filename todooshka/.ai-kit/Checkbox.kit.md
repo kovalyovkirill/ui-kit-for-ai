@@ -35,6 +35,20 @@ Use for boolean opt-in/opt-out. Do not use for mutually exclusive options (use a
 | Focus     | CSS `:focus-visible` (automatic) |
 | Disabled  | `disabled` |
 
+## Detached layers
+
+A Figma layer named `Checkbox` with no `I`-ids (a plain 16×16 frame with
+`--checkbox-*` tokens, or an exported `<img>`) is a detached instance. It is still
+this component — never a hand-rolled `<span>`:
+
+| Drawn as | Render as |
+|---|---|
+| empty box, `--checkbox-*-default` tokens | `<Checkbox size="sm" />` |
+| filled brand box with a check (usually an `<img>`, no tokens) | `<Checkbox size="sm" defaultChecked />` |
+
+Use `defaultChecked`, not `checked`, in a static mockup — `checked` without an
+`onChange` makes React warn. Box 16 px maps to `sm`; no label unless Figma draws one.
+
 ## Design tokens
 
 `--checkbox-background-default` · `--checkbox-background-checked`

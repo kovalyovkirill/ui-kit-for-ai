@@ -17,6 +17,18 @@ props:
 
 Use for all single-line text entry. Do not use for multi-line text (use Textarea).
 
+## `className` and `...rest`
+
+Read off `Input.tsx` (2026-09-28), recorded so generation never opens it:
+`className` lands on the **root wrapper** `<div>` (the column holding label, field
+and helper text), not on the bordered field. A `width` set through it sizes the
+whole control, and the field stretches to fill it — so for a Figma frame drawn
+`Field 242 px` wide, set 242 px on `className`. The Field frame's width is **text
+width + 2 × padding-x + 2 × border** (216 + 24 + 2 = 242); the 216 you see on the
+placeholder's text node is *not* the width to use — a past run set 216 and shipped a
+field 26 px too narrow. `...rest` (`placeholder`, `name`,
+`onChange`, `register()`) goes to the native `<input>`.
+
 ## Size mapping
 
 | Figma Size | `size` | Height | Text token |
