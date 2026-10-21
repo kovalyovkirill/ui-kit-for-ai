@@ -23,7 +23,7 @@
 // Exit 0 = digest printed. Exit 2 = could not run (Figma not reachable, node missing,
 // or the parser lost nodes) — never read that as "nothing to report".
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT, TOKENS_PATH, readKitJson } from './lib/tokens.mjs'
 
@@ -69,13 +69,60 @@ async function fetchBlob() {
   await rpc({ jsonrpc: '2.0', method: 'notifications/initialized' }, init.session)
   const { msg } = await rpc({
     jsonrpc: '2.0', id: 2, method: 'tools/call',
-    params: { name: 'get_design_context', arguments: { nodeId, forceCode: true, excludeScreenshot: true, clientFrameworks: 'react', clientLanguages: 'typescript,css' } },
+    // Screenshot included: the cached blob + PNG are the agent's whole Figma input, so
+    // it never calls get_design_context itself (a second fetch of the same node cost
+    // a Sonnet run 15 s of tool time plus a model turn).
+    params: { name: 'get_design_context', arguments: { nodeId, forceCode: true, clientFrameworks: 'react', clientLanguages: 'typescript,css' } },
   }, init.session)
   if (!msg?.result || msg.result.isError) fail(`get_design_context failed: ${JSON.stringify(msg?.error ?? msg?.result?.content ?? msg).slice(0, 300)}`)
-  return msg.result.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n')
+  const image = msg.result.content.find((c) => c.type === 'image')
+  return {
+    blob: msg.result.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n'),
+    png: image ? Buffer.from(image.data, 'base64') : null,
+  }
 }
 
-const blob = fromFile ? readFileSync(fromFile, 'utf8') : await fetchBlob()
+// ── prefetch: the 6 s get_design_context, started early by a hook ──
+// figma-prefetch.mjs (UserPromptSubmit / PreToolUse Skill) runs `--fetch-only` in the
+// background while the model is still loading the skill; preflight's digest then
+// consumes that result instead of fetching again. Consume-once: a run that was not
+// preceded by a prefetch always fetches fresh, so the cache is never older than the
+// prompt that asked for it.
+const blobPath = join(CACHE, `figma-${slug}.tsx`)
+const pngPath = join(CACHE, `figma-${slug}.png`)
+const marker = join(CACHE, `figma-${slug}.prefetch.json`)
+const PREFETCH_TTL = 10 * 60_000
+const readMarker = () => { try { return JSON.parse(readFileSync(marker, 'utf8')) } catch { return null } }
+const writeAtomic = (path, data) => { writeFileSync(`${path}.tmp`, data); renameSync(`${path}.tmp`, path) }
+
+if (args.includes('--fetch-only')) {
+  mkdirSync(CACHE, { recursive: true })
+  writeFileSync(marker, JSON.stringify({ state: 'pending', startedAt: Date.now(), pid: process.pid }))
+  process.on('exit', (code) => { if (code !== 0) writeFileSync(marker, JSON.stringify({ state: 'failed', startedAt: Date.now() })) })
+  const { blob, png } = await fetchBlob()
+  writeAtomic(blobPath, blob)
+  if (png) writeAtomic(pngPath, png)
+  else rmSync(pngPath, { force: true })
+  writeFileSync(marker, JSON.stringify({ ...readMarker(), state: 'done', doneAt: Date.now() }))
+  process.exit(0)
+}
+
+let prefetched = null
+if (!fromFile && existsSync(marker)) {
+  let m = readMarker()
+  // in flight → wait for it rather than start a second identical fetch (≤ 20 s)
+  // (a pending marker older than 30 s belongs to a killed prefetch — do not wait on it)
+  for (const until = Date.now() + 20_000; m?.state === 'pending' && Date.now() - m.startedAt < 30_000 && Date.now() < until;) {
+    await new Promise((r) => setTimeout(r, 100))
+    m = readMarker()
+  }
+  rmSync(marker, { force: true })
+  if (m?.state === 'done' && Date.now() - m.startedAt < PREFETCH_TTL && existsSync(blobPath)) {
+    prefetched = { blob: readFileSync(blobPath, 'utf8'), png: existsSync(pngPath) ? readFileSync(pngPath) : null, ageS: Math.round((Date.now() - m.doneAt) / 1000) }
+  }
+}
+
+const { blob, png } = fromFile ? { blob: readFileSync(fromFile, 'utf8'), png: null } : prefetched ?? await fetchBlob()
 
 // ── parse the JSX into a tree ──
 const start = blob.indexOf('return (')
@@ -371,14 +418,17 @@ digest.copy = [...new Set(all.filter((n) => n.text && (n.tag === 'p' || n.tag ==
 
 // ── write cache ──
 mkdirSync(CACHE, { recursive: true })
-writeFileSync(join(CACHE, `figma-${slug}.tsx`), blob)
+if (!prefetched) writeFileSync(blobPath, blob)
 writeFileSync(join(CACHE, `figma-${slug}.json`), JSON.stringify(digest, null, 2) + '\n')
+if (png && !prefetched) writeFileSync(pngPath, png)
 
 // ── print ──
 const out = []
 const say = (s = '') => out.push(s)
 say(`## figma-digest ${nodeId} — derived from the blob; quote it, do not recount`)
-say(`cache: .ai-kit/.cache/figma-${slug}.{tsx,json}`)
+say(`figma input (Read both in Step 1 — never call get_design_context again)${prefetched ? ` — prefetched by hook ${prefetched.ageS}s ago` : ''}:`)
+say(`  blob:       ${blobPath}`)
+say(png || existsSync(pngPath) ? `  screenshot: ${pngPath}` : '  screenshot: (none — --from-file run; call get_design_context for the image)')
 say(`\nsections (each → components/<Name>/, SKILL 2c): ${digest.sections.map((s) => `${s.name} ${s.id}`).join(' · ')}`)
 say(`components the page must define (one Figma layer name = one component, differences are props): ${digest.expectedComponents.join(', ')}`)
 if (digest.canvasWidth) say(`canvas: ${digest.canvasWidth}px artboard — the page root is width: 100%, never ${digest.canvasWidth}px, never position: absolute`)

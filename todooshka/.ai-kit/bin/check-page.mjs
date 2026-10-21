@@ -18,6 +18,9 @@
 //           figma-digest cache with --figma, or from --expect-shim
 //   exit    index.ts exports exactly the page component and nothing else
 //   barrel  no index.* inside components/ or model/
+//   nest    a folder directly under components/ is a section (imported by the page file);
+//           a sub-component used inside one section only lives inside that section's folder
+//   shimtok the page imports @shims/… → check-tokens runs on src/shims too
 // With --figma <nodeId> (reads .ai-kit/.cache/figma-<id>.json, written by figma-digest):
 //   kit     every implemented component Figma instantiates is imported from the kit
 //   detach  every detached form control (Checkbox …) is rendered as that kit component
@@ -27,9 +30,13 @@
 //
 // Exit 0 = clean. Exit 1 = violations. Exit 2 = could not run.
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
-import { basename, join, relative, resolve } from 'node:path'
+import { spawnSync } from 'node:child_process'
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { basename, dirname, join, relative, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { ROOT } from './lib/tokens.mjs'
+
+const BIN = dirname(fileURLToPath(import.meta.url))
 
 const args = process.argv.slice(2)
 const target = args.find((a) => !a.startsWith('--') && !/^[a-z]+=\d/.test(a))
@@ -274,6 +281,61 @@ for (const f of tsx) {
   }
 }
 
+// ── nest: sub-components live inside the section that uses them ──
+// The SKILL rule was prose only; a Sonnet run put Column/TaskCard/CountBadge/
+// PerformanceCard flat next to KanbanBoard/, and every other check stayed green.
+const compRoot = join(dir, 'components')
+const pageFile = join(dir, `${basename(dir)}.tsx`)
+if (existsSync(compRoot)) {
+  const srcFiles = files.filter((x) => /\.(tsx?|jsx?)$/.test(x))
+  const resolveImport = (from, spec) => {
+    const base = resolve(from, '..', spec)
+    const e = EXTS.find((x) => existsSync(base + x) && statSync(base + x).isFile())
+    return e === undefined ? null : base + e
+  }
+  const importsOf = new Map(srcFiles.map((f) => [f,
+    [...readFileSync(f, 'utf8').matchAll(/(?:import|export)\s[^'"]*?from\s*['"](\.{1,2}\/[^'"]+)['"]/g)]
+      .map((m) => resolveImport(f, m[1])).filter(Boolean)]))
+  // the folder directly under components/ that a file sits in (null = outside components/)
+  const topOf = (f) => {
+    const r = relative(compRoot, f)
+    return r.startsWith('..') ? null : r.split('/')[0]
+  }
+  const tops = readdirSync(compRoot, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name)
+  const isSection = (t) => (importsOf.get(pageFile) ?? []).some((x) => topOf(x) === t)
+  const usersOf = (t) => [...new Set(srcFiles
+    .filter((f) => topOf(f) !== t && importsOf.get(f).some((x) => topOf(x) === t))
+    .map(topOf).filter(Boolean))]
+  const sectionsOf = (t, seen) => {
+    if (isSection(t)) return [t]
+    if (seen.has(t)) return []
+    return [...new Set(usersOf(t).flatMap((u) => sectionsOf(u, new Set([...seen, t]))))]
+  }
+  for (const t of tops) {
+    if (isSection(t)) continue
+    const s = sectionsOf(t, new Set())
+    // used by two sections → shared, top level is right; used by none → not this rule's business
+    if (s.length === 1) {
+      violations.push(`nest    ${rel(join(compRoot, t))}/ is not a section (${basename(dir)}.tsx does not import it) and is used only inside ${s[0]} — move it to ${rel(join(compRoot, s[0], t))}/ (SKILL Step 3: nesting lives inside the parent's folder)`)
+    }
+  }
+}
+
+// ── shimtok: kit debt the page imports is token-checked with it ──
+// Was a conditional second check-tokens line in the SKILL; a Sonnet run skipped it.
+if (tsx.some((f) => /from\s*['"]@shims\//.test(readFileSync(f, 'utf8')))) {
+  const r = spawnSync(process.execPath, [join(BIN, 'check-tokens.mjs'), 'src/shims'], { cwd: ROOT, encoding: 'utf8' })
+  const out = (r.stdout + r.stderr).trim()
+  if (r.status === 0) {
+    console.log(`shimtok src/shims: ${out.split('\n').at(-1)}`)
+  } else if (r.status === 1) {
+    violations.push(...out.split('\n').map((l) => `shimtok src/shims: ${l}`))
+  } else {
+    console.error(`error: check-tokens on src/shims could not run: ${out || r.error?.message}`)
+    process.exit(2)
+  }
+}
+
 // ── exit: index.ts exports only the page ──
 const indexFile = files.find((f) => /^index\.tsx?$/.test(basename(f)) && resolve(f, '..') === dir)
 if (!indexFile) {
@@ -293,50 +355,69 @@ for (const f of files) {
 }
 
 // ── report: everything derivable from code ──
+const rep = []
+const say = (s) => rep.push(s)
+const count = {}
 if (args.includes('--report')) {
-  console.log('## derived drift facts — quote these, do not restate from memory')
-  console.log('\nshims used:')
-  console.log(shimWhere.length ? shimWhere.map((s) => `  ${s}`).join('\n') : '  (none)')
-  console.log('\noff-system markers:')
+  say('## derived drift facts — quote these, do not restate from memory')
+  say('\nshims used:')
+  say(shimWhere.length ? shimWhere.map((s) => `  ${s}`).join('\n') : '  (none)')
+  say('\noff-system markers:')
   const off = []
   for (const f of css) {
     readFileSync(f, 'utf8').split('\n').forEach((l, i) => { if (l.includes('off-system:')) off.push(`  ${rel(f)}:${i + 1}: ${l.trim()}`) })
   }
-  console.log(off.length ? off.join('\n') : '  (none)')
-  console.log('\nkit components imported (per file):')
+  say(off.length ? off.join('\n') : '  (none)')
+  Object.assign(count, { shims: shimWhere.length, 'off-system': off.length })
+  say('\nkit components imported (per file):')
   const kit = []
   for (const f of tsx) {
     const names = kitImports(readFileSync(f, 'utf8'))
     if (names.length) kit.push(`  ${rel(f)}: ${names.join(', ')}`)
   }
-  console.log(kit.length ? kit.join('\n') : '  (none)')
-  console.log('\nnative interactive elements (hand-rolled unless the registry says otherwise):')
+  say(kit.length ? kit.join('\n') : '  (none)')
+  say('\nnative interactive elements (hand-rolled unless the registry says otherwise):')
   const native = []
   for (const f of tsx) {
     const src = readFileSync(f, 'utf8')
     for (const m of src.matchAll(/<(button|input|select|textarea|a)\b/g)) native.push(`  ${rel(f)}:${lineOf(src, m.index)}: <${m[1]}>`)
   }
-  console.log(native.length ? native.join('\n') : '  (none)')
-  console.log('\nauthored icons:')
+  say(native.length ? native.join('\n') : '  (none)')
+  say('\nauthored icons:')
   const icons = files.filter((f) => basename(f) === 'icons.tsx')
   const names = icons.flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/export function (\w+)/g)].map((m) => m[1]))
-  console.log(names.length ? `  ${names.join(', ')}` : '  (none)')
+  say(names.length ? `  ${names.join(', ')}` : '  (none)')
+  Object.assign(count, { native: native.length, icons: names.length })
   if (!digest) {
-    console.log('\nNOT derivable without --figma <nodeId>: typography drift, token-family mismatches, detached layers.')
+    say('\nNOT derivable without --figma <nodeId>: typography drift, token-family mismatches, detached layers.')
   } else {
-    console.log(`\n## drift from Figma ${digest.node} (figma-digest cache) — quote these too`)
+    say(`\n## drift from Figma ${digest.node} (figma-digest cache) — quote these too`)
     const typo = digest.typography.filter((t) => !t.fidelity.startsWith('✅'))
-    console.log('\ntypography drift:')
-    console.log(typo.length ? typo.map((t) => `  ${t.style} ×${t.nodes.length} → ${t.variant}: ${t.fidelity}`).join('\n') : '  (none)')
+    say('\ntypography drift:')
+    say(typo.length ? typo.map((t) => `  ${t.style} ×${t.nodes.length} → ${t.variant}: ${t.fidelity}`).join('\n') : '  (none)')
     const mism = digest.families.flatMap((f) => f.props.filter((p) => p.mismatch).map((p) => `  ${f.name} (${f.ids.join(', ')}) ${p.prop} ${p.value}: ${p.mismatch} → kept ${p.drawn}`))
-    console.log('\ntoken-family mismatches:')
-    console.log(mism.length ? mism.join('\n') : '  (none)')
-    console.log('\ndetached layers rendered as kit components:')
-    console.log(digest.detached.length ? digest.detached.map((d) => `  ${d.name} ${d.id} (${d.state}, drawn as ${d.drawnAs})`).join('\n') : '  (none)')
+    say('\ntoken-family mismatches:')
+    say(mism.length ? mism.join('\n') : '  (none)')
+    say('\ndetached layers rendered as kit components:')
+    say(digest.detached.length ? digest.detached.map((d) => `  ${d.name} ${d.id} (${d.state}, drawn as ${d.drawnAs})`).join('\n') : '  (none)')
     const off = digest.instances.filter((i) => ['missing', 'absent', 'tokens-only'].includes(i.status))
-    console.log('\nregistry gaps (hand-rolled / stubbed instances):')
-    console.log(off.length ? off.map((i) => `  ${i.name} ${i.id}: ${i.status}`).join('\n') : '  (none)')
+    say('\nregistry gaps (hand-rolled / stubbed instances):')
+    say(off.length ? off.map((i) => `  ${i.name} ${i.id}: ${i.status}`).join('\n') : '  (none)')
+    Object.assign(count, { typography: typo.length, 'token-family': mism.length, detached: digest.detached.length, 'registry gaps': off.length })
   }
+  console.log(rep.join('\n'))
+}
+
+// The full report goes to a file and the agent's final message links it: re-typing
+// ~3 KB of facts the script already printed cost every run 8–11 s of output, and a
+// restated report is exactly where past runs invented "Shims: None".
+let reportLine = ''
+if (args.includes('--report')) {
+  const reportFile = join(ROOT, `.ai-kit/.cache/drift-${basename(dir)}.md`)
+  mkdirSync(dirname(reportFile), { recursive: true })
+  const status = violations.length ? `✗ ${violations.length} violation(s) — NOT done` : '✓ clean'
+  writeFileSync(reportFile, `# ${basename(dir)} — check-page report\n\n${rel(dir)} · ${status} · ${new Date().toISOString()}\n\n${rep.join('\n')}\n`)
+  reportLine = `report  ${Object.entries(count).map(([k, v]) => `${k} ${v}`).join(' · ')} → ${reportFile}`
 }
 
 if (violations.length) {
@@ -348,3 +429,18 @@ if (violations.length) {
   process.exit(1)
 }
 console.log(`✓ ${target}: no raw text, no text metrics in CSS, index exports the page only${expectRaw ? ', shim usage matches Figma' : ''}`)
+if (reportLine) {
+  // Printed last, ready to paste: a rule in the SKILL ("do not restate") lost to the
+  // habit of a full hand-back report; a block the script hands over is copied instead.
+  const page = basename(dir)
+  const icons = files.filter((f) => basename(f) === 'icons.tsx')
+    .flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/export function (\w+)/g)].map((m) => m[1]))
+  console.log(reportLine)
+  console.log(`\n## FINAL MESSAGE — if tsc and check-tokens also exited 0, send exactly the block below and nothing else.
+## Do NOT list shims, drift, tokens or components: they are in the report file. You may add at most 2 lines
+## for a structural choice no script can know, and one line per preflight note (updated: / DID NOT RUN / ERROR).
+${page} built: ${rel(dir)}/ (rendered from src/App.tsx)
+tsc ✓ · check-tokens ✓ · check-page ✓ — visual review pending your check
+${reportLine.replace(/^report\s+/, 'drift: ')}
+icons authored from the screenshot: ${icons.length ? icons.join(', ') : '(none)'}`)
+}

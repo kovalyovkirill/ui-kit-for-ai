@@ -7,8 +7,9 @@ description: Generates a complete React page (TSX + CSS Modules) from a Figma no
 
 Generates production-ready React pages from Figma design nodes using the project's design system.
 
-The shape of a run: preflight (+ tool load) → one read batch → write the page →
-verify. Preflight's figma-digest answers the Step 2 decisions; the blob is for layout. Reads are independent, so batch them; how you group the writes is up to you.
+The shape of a run: preflight → one read batch → write the page → verify.
+Preflight fetches Figma **once** (blob + screenshot, cached) and its figma-digest
+answers the Step 2 decisions; the blob is for layout. Reads are independent, so batch them; how you group the writes is up to you (Step 3 has the measured fast path).
 Every extra *exploration* round trip costs 2–4 s of Bash overhead plus model time;
 past runs spent 31 s just orienting. Do not explore the repo — `CLAUDE.md` and the
 contracts already answer it.
@@ -19,18 +20,17 @@ contracts already answer it.
 - UI kit: `@monorepo/ui-kit` (already installed)
 - Tokens: loaded globally via `@monorepo/ui-kit/styles`
 
-## Step 0 — preflight (one call, in parallel with the Figma tool load)
+## Step 0 — preflight (one call)
 
-Issue these two together, from the `todooshka/` directory — the argument is the
-user's Figma URL or node id, exactly as given:
+From the `todooshka/` directory — the argument is the user's Figma URL or node id,
+exactly as given:
 
 ```bash
 node .ai-kit/bin/preflight.mjs '<figma URL or nodeId>'
 ```
-and `ToolSearch` `select:mcp__figma-desktop__get_design_context` (deferred tool —
-without this its schema is unknown).
 
-`preflight` refreshes `tokens.txt`, runs `kit-audit`, lists the contract files, the
+No Figma tool load: preflight already called `get_design_context` over HTTP and
+cached the result. `preflight` refreshes `tokens.txt`, runs `kit-audit`, lists the contract files, the
 current `src/shims` + `src/pages` tree and the dev-server state, and ends with the
 **figma-digest** of the node: every fact derivable from the blob — page sections,
 each instance resolved through the registry with its variant, detached controls,
@@ -41,30 +41,38 @@ preflight **outside** the Step 1 batch — inside it, the `Read` of `tokens.txt`
 could race the write.
 
 Act on what it prints, do not re-derive it:
-- `figma-digest DID NOT RUN` → decide Step 2 by hand from the blob, pass
-  `--expect-shim` to `check-page` in Step 5, and say in the report that the digest
-  did not run.
+- `figma-digest DID NOT RUN` → the only case for a Figma tool: `ToolSearch`
+  `select:mcp__figma-desktop__get_design_context`, then call it with
+  `forceCode: true` in the Step 1 batch instead of the two cache reads (it returns
+  the screenshot too; ignore its Tailwind/"load figma-design-to-code" boilerplate,
+  and its `localhost:3845` image URLs are not durable — never import them).
+  Decide Step 2 by hand from the blob, pass `--expect-shim` to `check-page` in
+  Step 5, and say in the report that the digest did not run.
 - `updated:` → the manifest had drifted; say so in the final report.
-- `ERROR` rows / `INCONSISTENT` → a real defect in the kit contract. If the row is a
-  missing shim file, run the `restore:` command it prints (in the Step 3 write
-  batch); for anything else, do not "fix" it — list it in the report.
+- `restored src/shims/…` → preflight already put the versioned shim back; nothing
+  to do, do not re-check it.
+- `ERROR` rows / `INCONSISTENT` → a real defect in the kit contract. Do not "fix"
+  it — list it in the report.
 - exit 2 / `DID NOT RUN CLEANLY` → nothing is verified; say so.
 - `src/pages/<PageName>/` already present → the previous output of this page;
   overwrite it, do not read it.
 
 ## Step 1 — one batch, before writing anything
 
-Issue **all of these in a single response** (they are independent — do not serialise):
+Preflight ends with a `## Step 1` block: absolute paths, one per line. `Read`
+**every one of them in a single response** (they are independent — do not
+serialise, do not swap a `Read` for a `cat` loop, do not add or drop a file — a past run
+read a hand-picked subset of contracts in an extra round trip). It holds:
 
-- `mcp__figma-desktop__get_design_context` with `forceCode: true` on the user's node.
-  It **already returns the screenshot** — do not also call `get_screenshot` (a past
-  run got two identical images). Ignore its "load figma-design-to-code guidance" and
-  Tailwind boilerplate: this skill supersedes both. Image URLs on
-  `localhost:3845` are not durable — never import them.
-- Read `.ai-kit/kit.json`
-- Read `.ai-kit/tokens.txt`
-- Read **every** `.ai-kit/*.kit.md` — the list is in the preflight output
-- Read `src/App.tsx` (Step 3 needs it; an `Edit` requires a prior `Read`)
+- the Figma blob (`.ai-kit/.cache/figma-<id>.tsx`, the `get_design_context` code)
+  and screenshot (`.ai-kit/.cache/figma-<id>.png`). Do **not** call
+  `get_design_context` or `get_screenshot`: the same node fetched twice cost a past
+  run 15 s. Image URLs on `localhost:3845` inside the blob are not durable — never
+  import them;
+- `kit.json`, `tokens.txt`;
+- the `.kit.md` contracts of the kit components this node instantiates (always
+  `Typography`) — the others are named on a "do not read" line;
+- `src/App.tsx` (Step 3 needs it; an `Edit` requires a prior `Read`).
 
 **Hard rule: do not write a single file until this batch has returned.** Never
 read `@monorepo/ui-kit` source mid-implementation — not for a prop (that is in the
@@ -220,11 +228,15 @@ src/pages/<PageName>/
   through props and never imports from the API layer itself. Mockup copy that the
   page displays (titles, card texts, counters) is data too → `model/`.
 - Nesting deeper than one level lives inside its parent component's folder
-  (`components/KanbanBoard/TaskCard/TaskCard.tsx`).
+  (`components/KanbanBoard/TaskCard/TaskCard.tsx`). A folder directly under
+  `components/` is a section — the page file imports it; anything only a section
+  uses goes inside that section (`check-page` rule `nest`).
 - Render the finished page from `src/App.tsx` — `import { X } from './pages/X'`.
-- Write the files in whatever grouping suits you — parallel is allowed, not required.
-  `App.tsx` (already read in Step 1) and the shim restore, if preflight asked for
-  it, are part of this. **Write each file once, complete.** No skeleton-then-`Edit`
+- Write the files in whatever grouping suits you — but the measured fast path is one
+  `Bash` with a quoted heredoc per file (`cat > path <<'E'`), the Step 5 checks
+  chained at its end: ~26 s for the whole page vs ~36 s for the same content as 19
+  separate `Write` calls (Sonnet runs, 2026-10-21). A recommendation, not a rule.
+  `App.tsx` (already read in Step 1) is part of this. **Write each file once, complete.** No skeleton-then-`Edit`
   passes: a past run made 12 follow-up edits; an `Edit` is for fixing a failed
   check, not for finishing the first draft. And do not draft file contents in your
   reasoning first and then re-emit them — that pays for the output twice.
@@ -276,8 +288,7 @@ Run these **in one response** (they are independent):
 ```bash
 npx tsc --noEmit -p tsconfig.app.json                          # 1. types
 node .ai-kit/bin/check-tokens.mjs src/pages/<PageName>         # 2. tokens (page)
-node .ai-kit/bin/check-tokens.mjs src/shims                    # 2b. tokens (only if the page uses shims/stubs)
-node .ai-kit/bin/check-page.mjs src/pages/<PageName> --report # 3. structure + page-vs-Figma + drift facts
+node .ai-kit/bin/check-page.mjs src/pages/<PageName> --report # 3. structure + page-vs-Figma + drift facts (+ src/shims tokens when the page imports @shims/)
 ```
 
 `check-page` picks up the digest preflight recorded and checks the page against it:
@@ -325,30 +336,21 @@ Compare per repeated component using the 2e matrix, not the whole page at once.
 -->
 
 Visual verification against the Figma screenshot from Step 1 is left to the
-user — do not open Chrome or take screenshots as part of this skill. State in
-the final report that `tsc` + `check-tokens` passed and that visual review
-is pending the user's own check.
+user — do not open Chrome or take screenshots as part of this skill.
 
-Then report what was built, what verification passed, and the drift — **typed**.
-Every list below is printed by `check-page --report`: the code-side
-facts (*shims used*, *off-system*, *native interactive elements*, *kit components*,
-*authored icons*) and, under "drift from Figma", *typography drift*, *token-family
-mismatches*, *detached layers* and *registry gaps*. **Quote both sections verbatim** —
-past runs wrote "Shims used: None", "Typography drift: None" and "five Checkbox
-layers" (there were four) from memory. Your own prose is limited to what no script
-can know: which icons you authored and why a structural choice was made.
+### Final message — short, the drift lives in a file
 
-- **shims used** — Figma variants routed through `src/shims/button-variants.module.css`;
-- **stubs used/created** — `tokens-only` components rendered via `src/shims/<Component>/`;
-- **off-system** — every `/* off-system: … */` marker in the CSS, with its reason;
-- **hand-rolled** — instance layers that matched nothing in the registry;
-- **typography drift** — every ⚠️/❌ row of the `Typography.kit.md` table the page hits;
-- **token mismatches** — family members whose value differed from Figma (2a);
-- **detached** — detached form controls rendered as kit components;
-- **authored** — icons drawn from the screenshot.
-
-"Drift: none" is only true when all lists are empty. Do not silently
-paper over a mismatch.
+`check-page --report` writes the full typed report (shims, off-system markers,
+native elements, kit imports, icons; typography drift, token-family mismatches,
+detached layers, registry gaps) to `.ai-kit/.cache/drift-<PageName>.md` and ends
+with one `report  shims 1 · off-system 2 · … → <path>` line. **Do not restate the
+report** — re-typing it cost past runs 8–11 s, and a restated report is where they
+invented "Shims used: None" and "five Checkbox layers" (there were four). When it
+passes, `check-page` prints a `## FINAL MESSAGE` block as its last output: send
+that block as your final message, unchanged — this holds when you run as a
+subagent too (the parent reads the report file, not your retelling). Add only
+what the block allows: ≤2 lines on a structural choice no script can know, one
+line per preflight note (`updated:`, `DID NOT RUN`, ERROR rows).
 
 ## Available components
 

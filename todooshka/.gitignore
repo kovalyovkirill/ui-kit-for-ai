@@ -23,9 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Claude Code — локальные настройки игнорируем, скилы версионируем.
+# Claude Code — локальные настройки игнорируем, скилы и проектные hooks версионируем.
 .claude/*
 !.claude/skills/
+!.claude/settings.json
 
 # figma-digest cache (blob + digest per Figma node) — regenerated every run
 .ai-kit/.cache/
